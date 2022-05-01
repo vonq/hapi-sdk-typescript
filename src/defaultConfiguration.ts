@@ -11,6 +11,7 @@ import { RetryConfiguration } from './core';
 export const DEFAULT_CONFIGURATION: Configuration = {
   timeout: 0,
   environment: Environment.Production,
+  xAuthToken: 'TODO X-Auth-Token',
 };
 
 /** Default values for retry configuration parameters. */

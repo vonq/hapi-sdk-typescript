@@ -13,12 +13,12 @@ import {
   Schema,
   string,
 } from '../schema';
+import { ChannelTypeEnum, channelTypeEnumSchema } from './channelTypeEnum';
 import {
   ContractCredential,
   contractCredentialSchema,
 } from './contractCredential';
 import { Facet, facetSchema } from './facet';
-import { Type1Enum, type1EnumSchema } from './type1Enum';
 
 export interface Channel {
   /** The name of a channel */
@@ -26,7 +26,7 @@ export interface Channel {
   /** The url of a channel */
   url?: string;
   /** The type of a channel */
-  type?: Type1Enum;
+  type?: ChannelTypeEnum;
   /** Does a channel support My Contracts */
   mcEnabled?: boolean;
   contractCredentials?: ContractCredential[];
@@ -38,7 +38,7 @@ export interface Channel {
 export const channelSchema: Schema<Channel> = object({
   name: ['name', optional(string())],
   url: ['url', optional(string())],
-  type: ['type', optional(type1EnumSchema)],
+  type: ['type', optional(channelTypeEnumSchema)],
   mcEnabled: ['mc_enabled', optional(boolean())],
   contractCredentials: [
     'contract_credentials',

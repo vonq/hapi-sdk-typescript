@@ -9,38 +9,54 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `title` | `string \| undefined` | Optional | - |
-| `locations` | [`Location[] \| undefined`](../../doc/models/location.md) | Optional | - |
-| `jobFunctions` | [`JobFunction[] \| undefined`](../../doc/models/job-function.md) | Optional | - |
-| `industries` | [`Industry[] \| undefined`](../../doc/models/industry.md) | Optional | - |
-| `description` | `string \| undefined` | Optional | - |
-| `homepage` | `string \| undefined` | Optional | - |
-| `logoUrl` | `string \| undefined` | Optional | - |
-| `logoSquareUrl` | `string \| undefined` | Optional | - |
-| `logoRectangleUrl` | `string \| undefined` | Optional | - |
-| `duration` | `string \| undefined` | Optional | - |
-| `timeToProcess` | [`TimeToProcess \| undefined`](../../doc/models/time-to-process.md) | Optional | - |
-| `timeToSetup` | [`TimeToSetup \| undefined`](../../doc/models/time-to-setup.md) | Optional | - |
-| `productId` | `string \| undefined` | Optional | - |
-| `vonqPrice` | [`Price[] \| undefined`](../../doc/models/price.md) | Optional | the price to be displayed to customers |
-| `ratecardPrice` | [`Price[] \| undefined`](../../doc/models/price.md) | Optional | - |
-| `type` | `string \| undefined` | Optional | - |
-| `crossPostings` | `string[] \| undefined` | Optional | - |
-| `channel` | [`Channel \| undefined`](../../doc/models/channel.md) | Optional | - |
-| `audienceGroup` | `string \| undefined` | Optional | The product's audience group (niche/generic) |
-| `mcEnabled` | `boolean \| undefined` | Optional | is My Contract enabled for the channel |
-| `mcOnly` | `boolean \| undefined` | Optional | is the product available only for My Contract order |
-| `allowOrders` | `boolean \| undefined` | Optional | is the product available for order. a campaign cannot be ordered with a product having `allow_orders` set to `false`. |
+| `title` | `string` | Required | - |
+| `locations` | [`Location[]`](../../doc/models/location.md) | Required | **Constraints**: *Unique Items Required* |
+| `jobFunctions` | [`JobFunction[]`](../../doc/models/job-function.md) | Required | **Constraints**: *Unique Items Required* |
+| `industries` | [`Industry[]`](../../doc/models/industry.md) | Required | **Constraints**: *Unique Items Required* |
+| `description` | `string \| null` | Required | - |
+| `homepage` | `string \| null` | Required | - |
+| `logoUrl` | `string \| null` | Required | - |
+| `logoSquareUrl` | `string \| null` | Required | - |
+| `logoRectangleUrl` | `string \| null` | Required | - |
+| `duration` | `unknown \| null` | Required | - |
+| `timeToProcess` | [`TimeToProcess`](../../doc/models/time-to-process.md) | Required | - |
+| `timeToSetup` | [`TimeToSetup`](../../doc/models/time-to-setup.md) | Required | - |
+| `productId` | `string` | Required | - |
+| `vonqPrice` | [`Price[]`](../../doc/models/price.md) | Required | the price to be displayed to customers |
+| `ratecardPrice` | [`Price[]`](../../doc/models/price.md) | Required | - |
+| `type` | [`ChannelTypeEnum`](../../doc/models/channel-type-enum.md) | Required | The type of a channel |
+| `crossPostings` | `string[]` | Required | - |
+| `channel` | [`Channel`](../../doc/models/channel.md) | Required | - |
+| `audienceGroup` | [`AudienceGroupEnum`](../../doc/models/audience-group-enum.md) | Required | The product's audience group (niche/generic) |
+| `mcEnabled` | `boolean` | Required | is My Contract enabled for the channel |
+| `mcOnly` | `boolean` | Required | is the product available only for My Contract order |
+| `allowOrders` | `boolean` | Required | is the product available for order. a campaign cannot be ordered with a product having `allow_orders` set to `false`. |
 
 ## Example (as JSON)
 
 ```json
 {
   "title": null,
-  "locations": null,
+  "locations": {
+    "id": null,
+    "fully_qualified_place_name": null,
+    "canonical_name": null,
+    "bounding_box": null,
+    "area": null,
+    "place_type": "place",
+    "within": {
+      "id": null,
+      "fully_qualified_place_name": null,
+      "canonical_name": null,
+      "bounding_box": null,
+      "area": null,
+      "place_type": "place",
+      "within": null
+    }
+  },
   "job_functions": null,
   "industries": null,
-  "description": null,
+  "description": "this is a product description",
   "homepage": null,
   "logo_url": null,
   "logo_square_url": null,
@@ -51,7 +67,7 @@
   "product_id": null,
   "vonq_price": null,
   "ratecard_price": null,
-  "type": null,
+  "type": "job board",
   "cross_postings": null,
   "channel": null,
   "audience_group": null,

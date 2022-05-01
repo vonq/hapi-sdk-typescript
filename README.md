@@ -173,6 +173,7 @@ The following parameters are configurable for the API Client:
 | `timeout` | `number` | Timeout for API calls.<br>*Default*: `0` |
 | `httpClientOptions` | `Partial<HttpClientOptions>` | Stable configurable http client options. |
 | `unstableHttpClientOptions` | `any` | Unstable configurable http client options. |
+| `xAuthToken` | `string` |  |
 
 ### HttpClientOptions
 
@@ -201,6 +202,7 @@ The API client can be initialized as follows:
 const client = new Client({
   timeout: 0,
   environment: Environment.Production,
+  xAuthToken: null,
 })
 ```
 
@@ -214,6 +216,10 @@ The SDK can be configured to use a different environment for making API calls. A
 |  --- | --- |
 | production | **Default** Sandbox |
 | environment2 | Production |
+
+## Authorization
+
+This API uses `Custom Header Signature`.
 
 ## List of APIs
 

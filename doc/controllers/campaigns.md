@@ -10,14 +10,14 @@ const campaignsController = new CampaignsController(client);
 
 ## Methods
 
-* [Orderanew Campaign](../../doc/controllers/campaigns.md#orderanew-campaign)
-* [Listall Campaignsbythis Partner](../../doc/controllers/campaigns.md#listall-campaignsbythis-partner)
-* [Retrieve Campaignbythis Partner](../../doc/controllers/campaigns.md#retrieve-campaignbythis-partner)
+* [Order Campaign](../../doc/controllers/campaigns.md#order-campaign)
+* [List Campaigns](../../doc/controllers/campaigns.md#list-campaigns)
+* [Retrieve Campaign](../../doc/controllers/campaigns.md#retrieve-campaign)
 * [Check Campaign Status](../../doc/controllers/campaigns.md#check-campaign-status)
-* [Takea Campaignoffline](../../doc/controllers/campaigns.md#takea-campaignoffline)
+* [Take Campaign Offline](../../doc/controllers/campaigns.md#take-campaign-offline)
 
 
-# Orderanew Campaign
+# Order Campaign
 
 Once your Customer has decided on a list of Channels they would like to buy, you can send the list along with
 publishing information as a `POST` request in order to create a `Campaign`. In return, you'll receive
@@ -37,14 +37,14 @@ You should use the following endpoints for the target group information:
 - [**`Seniority`**](b3A6MzM0NDA3NDA-retrieve-seniority-taxonomy)
 
 ```ts
-async orderanewCampaign(
+async orderCampaign(
   body: CampaignOrder,
   companyId?: string,
   limit?: string,
   offset?: string,
   xCustomerId?: string,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<OrderinganewCampaignwithPortfolioV2taxonomyresponse>>
+): Promise<ApiResponse<OrderCampaignSuccessResponse>>
 ```
 
 ## Parameters
@@ -60,7 +60,7 @@ async orderanewCampaign(
 
 ## Response Type
 
-[`OrderinganewCampaignwithPortfolioV2taxonomyresponse`](../../doc/models/orderinganew-campaignwith-portfolio-v2-taxonomyresponse.md)
+[`OrderCampaignSuccessResponse`](../../doc/models/order-campaign-success-response.md)
 
 ## Example Usage
 
@@ -203,7 +203,7 @@ const body: CampaignOrder = {
 };
 
 try {
-  const { result, ...httpResponse } = await campaignsController.orderanewCampaign(body);
+  const { result, ...httpResponse } = await campaignsController.orderCampaign(body);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -226,16 +226,16 @@ try {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 400 | - | [`OrderinganewCampaignwithPortfolioV2taxonomyresponse1Error`](../../doc/models/orderinganew-campaignwith-portfolio-v2-taxonomyresponse-1-error.md) |
+| 400 | - | [`OrderCampaignErrorResponseError`](../../doc/models/order-campaign-error-response-error.md) |
 
 
-# Listall Campaignsbythis Partner
+# List Campaigns
 
 Displays all the existing Campaigns already ordered for this Partner is as simple as executing a `GET`
 request against the endpoint `/campaigns`
 
 ```ts
-async listallCampaignsbythisPartner(
+async listCampaigns(
   companyId: string,
   limit?: number,
   offset?: number,
@@ -261,7 +261,7 @@ async listallCampaignsbythisPartner(
 ```ts
 const companyId = 'companyId0';
 try {
-  const { result, ...httpResponse } = await campaignsController.listallCampaignsbythisPartner(companyId);
+  const { result, ...httpResponse } = await campaignsController.listCampaigns(companyId);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -392,16 +392,16 @@ try {
 ```
 
 
-# Retrieve Campaignbythis Partner
+# Retrieve Campaign
 
 Retrieve the details of a specific Campaign. Only Campaigns created by the calling Partner can be
 retrieved.
 
 ```ts
-async retrieveCampaignbythisPartner(
+async retrieveCampaign(
   campaignId: string,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<ListasingleCampaignbythisPartnerresponse>>
+): Promise<ApiResponse<ListCampaignResponse>>
 ```
 
 ## Parameters
@@ -413,14 +413,14 @@ async retrieveCampaignbythisPartner(
 
 ## Response Type
 
-[`ListasingleCampaignbythisPartnerresponse`](../../doc/models/listasingle-campaignbythis-partnerresponse.md)
+[`ListCampaignResponse`](../../doc/models/list-campaign-response.md)
 
 ## Example Usage
 
 ```ts
 const campaignId = '000026a2-0000-0000-0000-000000000000';
 try {
-  const { result, ...httpResponse } = await campaignsController.retrieveCampaignbythisPartner(campaignId);
+  const { result, ...httpResponse } = await campaignsController.retrieveCampaign(campaignId);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -605,17 +605,17 @@ try {
 ```
 
 
-# Takea Campaignoffline
+# Take Campaign Offline
 
 Specific endpoint to take a campaign offline. Keep in mind that processing this might
 take some time and it only has an effect if the campaign's status is "online".
 
 ```ts
-async takeaCampaignoffline(
+async takeCampaignOffline(
   campaignId: string,
-  body: TakeaCampaignofflinerequest,
+  body: TakeCampaignOfflineRequest,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<TakeaCampaignofflineresponse>>
+): Promise<ApiResponse<TakeCampaignOfflineResponse>>
 ```
 
 ## Parameters
@@ -623,25 +623,25 @@ async takeaCampaignoffline(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `campaignId` | `string` | Template, Required | Id of the Campaign you want to take offline |
-| `body` | [`TakeaCampaignofflinerequest`](../../doc/models/takea-campaignofflinerequest.md) | Body, Required | - |
+| `body` | [`TakeCampaignOfflineRequest`](../../doc/models/take-campaign-offline-request.md) | Body, Required | - |
 | `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
 
 ## Response Type
 
-[`TakeaCampaignofflineresponse`](../../doc/models/takea-campaignofflineresponse.md)
+[`TakeCampaignOfflineResponse`](../../doc/models/take-campaign-offline-response.md)
 
 ## Example Usage
 
 ```ts
 const campaignId = '000026a2-0000-0000-0000-000000000000';
 const contentType = null;
-const body: TakeaCampaignofflinerequest = {
+const body: TakeCampaignOfflineRequest = {
   campaignId: 'ffb37e76-d4fe-5ad6-8441-b02c1b15aa4c',
   status: 'offline',
 };
 
 try {
-  const { result, ...httpResponse } = await campaignsController.takeaCampaignoffline(campaignId, body);
+  const { result, ...httpResponse } = await campaignsController.takeCampaignOffline(campaignId, body);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -664,6 +664,6 @@ try {
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 400 | - | [`TakeaCampaignofflineresponse2Error`](../../doc/models/takea-campaignofflineresponse-2-error.md) |
-| 404 | - | [`TakeaCampaignofflineresponse1Error`](../../doc/models/takea-campaignofflineresponse-1-error.md) |
+| 400 | - | [`TakeCampaignOfflineErrorResponse2Error`](../../doc/models/take-campaign-offline-error-response-2-error.md) |
+| 404 | - | [`TakeCampaignOfflineErrorResponseError`](../../doc/models/take-campaign-offline-error-response-error.md) |
 

@@ -10,6 +10,7 @@ import { HttpClientOptions } from './core';
 export interface Configuration {
   timeout: number;
   environment: Environment;
+  xAuthToken: string;
   httpClientOptions?: Partial<HttpClientOptions>;
   unstable_httpClientOptions?: any;
 }

@@ -5,12 +5,15 @@
  */
 
 import { object, optional, Schema, string } from '../schema';
-import { Status1Enum, status1EnumSchema } from './status1Enum';
+import {
+  ChannelStatusEnum,
+  channelStatusEnumSchema,
+} from './channelStatusEnum';
 
 export interface OrderedProductsStatusItem {
   productId?: string;
   /** Status of the product. One of the following */
-  status?: Status1Enum;
+  status?: ChannelStatusEnum;
   /** Additional information about product status */
   statusDescription?: string;
 }
@@ -18,7 +21,7 @@ export interface OrderedProductsStatusItem {
 export const orderedProductsStatusItemSchema: Schema<OrderedProductsStatusItem> = object(
   {
     productId: ['productId', optional(string())],
-    status: ['status', optional(status1EnumSchema)],
+    status: ['status', optional(channelStatusEnumSchema)],
     statusDescription: ['statusDescription', optional(string())],
   }
 );

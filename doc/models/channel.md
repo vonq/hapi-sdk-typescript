@@ -11,7 +11,7 @@
 |  --- | --- | --- | --- |
 | `name` | `string \| undefined` | Optional | The name of a channel |
 | `url` | `string \| undefined` | Optional | The url of a channel |
-| `type` | [`Type1Enum \| undefined`](../../doc/models/type-1-enum.md) | Optional | The type of a channel |
+| `type` | [`ChannelTypeEnum \| undefined`](../../doc/models/channel-type-enum.md) | Optional | The type of a channel |
 | `mcEnabled` | `boolean \| undefined` | Optional | Does a channel support My Contracts |
 | `contractCredentials` | [`ContractCredential[] \| undefined`](../../doc/models/contract-credential.md) | Optional | - |
 | `contractFacets` | [`Facet[] \| undefined`](../../doc/models/facet.md) | Optional | - |

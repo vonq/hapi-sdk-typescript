@@ -10,15 +10,15 @@ const taxonomyController = new TaxonomyController(client);
 
 ## Methods
 
-* [Retrieve Job Functions Categories Taxonomy](../../doc/controllers/taxonomy.md#retrieve-job-functions-categories-taxonomy)
+* [Retrieve Job Functions Tree](../../doc/controllers/taxonomy.md#retrieve-job-functions-tree)
 * [Search Job Titles](../../doc/controllers/taxonomy.md#search-job-titles)
-* [Searchfor Locations](../../doc/controllers/taxonomy.md#searchfor-locations)
-* [Listall Industries](../../doc/controllers/taxonomy.md#listall-industries)
-* [Retrieve Education Level Taxonomy](../../doc/controllers/taxonomy.md#retrieve-education-level-taxonomy)
-* [Retrieve Seniority Taxonomy](../../doc/controllers/taxonomy.md#retrieve-seniority-taxonomy)
+* [Search Locations](../../doc/controllers/taxonomy.md#search-locations)
+* [List Industries](../../doc/controllers/taxonomy.md#list-industries)
+* [Retrieve Education Levels](../../doc/controllers/taxonomy.md#retrieve-education-levels)
+* [Retrieve Seniorities](../../doc/controllers/taxonomy.md#retrieve-seniorities)
 
 
-# Retrieve Job Functions Categories Taxonomy
+# Retrieve Job Functions Tree
 
 This endpoint returns a tree-like structure of supported Job Functions that can be used to search for Products.
 Use the `id` key of any Job Function in the response to search for a Product.
@@ -26,10 +26,10 @@ Each Job Function is associated with [**`Job Titles`**](b3A6MzM0NDA3MzY-job-titl
 Besides the default English, German and Dutch result translations can be requested by specifying an `Accept-Language: [de|nl]` header.
 
 ```ts
-async retrieveJobFunctionsCategoriesTaxonomy(
+async retrieveJobFunctionsTree(
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<JobFunctionTree[]>>
+): Promise<ApiResponse<JobFunction[]>>
 ```
 
 ## Parameters
@@ -41,14 +41,14 @@ async retrieveJobFunctionsCategoriesTaxonomy(
 
 ## Response Type
 
-[`JobFunctionTree[]`](../../doc/models/job-function-tree.md)
+[`JobFunction[]`](../../doc/models/job-function.md)
 
 ## Example Usage
 
 ```ts
 const acceptLanguage = 'en';
 try {
-  const { result, ...httpResponse } = await taxonomyController.retrieveJobFunctionsCategoriesTaxonomy(acceptLanguage);
+  const { result, ...httpResponse } = await taxonomyController.retrieveJobFunctionsTree(acceptLanguage);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -128,7 +128,7 @@ try {
 ```
 
 
-# Searchfor Locations
+# Search Locations
 
 This endpoint takes any text as input and returns a list of Locations matching the query, ordered by popularity.
 Each response will include the entire world as a Location, even no Locations match the text query.
@@ -136,7 +136,7 @@ Use the `id` key of each object in the response to search for a Product.
 Supports text input in English, Dutch and German.
 
 ```ts
-async searchforLocations(
+async searchLocations(
   text: string,
   requestOptions?: RequestOptions
 ): Promise<ApiResponse<Location[]>>
@@ -158,7 +158,7 @@ async searchforLocations(
 ```ts
 const text = 'text0';
 try {
-  const { result, ...httpResponse } = await taxonomyController.searchforLocations(text);
+  const { result, ...httpResponse } = await taxonomyController.searchLocations(text);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -170,14 +170,14 @@ try {
 ```
 
 
-# Listall Industries
+# List Industries
 
 This endpoint returns a list of supported industry names that can be used to search for products. Results are ordered alphabetically.
 Use the `id` key of any Industry in the response to search for a product.
 Besides the default English, German and Dutch result translations can be requested by specifying an `Accept-Language: [de|nl]` header.
 
 ```ts
-async listallIndustries(
+async listIndustries(
   limit?: number,
   offset?: number,
   acceptLanguage?: AcceptLanguageEnum,
@@ -203,7 +203,7 @@ async listallIndustries(
 ```ts
 const acceptLanguage = 'en';
 try {
-  const { result, ...httpResponse } = await taxonomyController.listallIndustries(None, None, acceptLanguage);
+  const { result, ...httpResponse } = await taxonomyController.listIndustries(None, None, acceptLanguage);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -215,12 +215,12 @@ try {
 ```
 
 
-# Retrieve Education Level Taxonomy
+# Retrieve Education Levels
 
 Retrieve all Education Level possible values.
 
 ```ts
-async retrieveEducationLevelTaxonomy(
+async retrieveEducationLevels(
   requestOptions?: RequestOptions
 ): Promise<ApiResponse<EducationLevel[]>>
 ```
@@ -239,7 +239,7 @@ async retrieveEducationLevelTaxonomy(
 
 ```ts
 try {
-  const { result, ...httpResponse } = await taxonomyController.retrieveEducationLevelTaxonomy();
+  const { result, ...httpResponse } = await taxonomyController.retrieveEducationLevels();
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -267,12 +267,12 @@ try {
 ```
 
 
-# Retrieve Seniority Taxonomy
+# Retrieve Seniorities
 
 Retrieve all Seniority possible values.
 
 ```ts
-async retrieveSeniorityTaxonomy(
+async retrieveSeniorities(
   requestOptions?: RequestOptions
 ): Promise<ApiResponse<Seniority[]>>
 ```
@@ -291,7 +291,7 @@ async retrieveSeniorityTaxonomy(
 
 ```ts
 try {
-  const { result, ...httpResponse } = await taxonomyController.retrieveSeniorityTaxonomy();
+  const { result, ...httpResponse } = await taxonomyController.retrieveSeniorities();
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {

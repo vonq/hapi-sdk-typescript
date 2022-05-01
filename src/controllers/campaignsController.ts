@@ -6,36 +6,36 @@
 
 import { ApiResponse, RequestOptions } from '../core';
 import {
-  OrderinganewCampaignwithPortfolioV2taxonomyresponse1Error,
-} from '../errors/orderinganewCampaignwithPortfolioV2taxonomyresponse1Error';
+  OrderCampaignErrorResponseError,
+} from '../errors/orderCampaignErrorResponseError';
 import {
-  TakeaCampaignofflineresponse1Error,
-} from '../errors/takeaCampaignofflineresponse1Error';
+  TakeCampaignOfflineErrorResponse2Error,
+} from '../errors/takeCampaignOfflineErrorResponse2Error';
 import {
-  TakeaCampaignofflineresponse2Error,
-} from '../errors/takeaCampaignofflineresponse2Error';
+  TakeCampaignOfflineErrorResponseError,
+} from '../errors/takeCampaignOfflineErrorResponseError';
 import { CampaignOrder, campaignOrderSchema } from '../models/campaignOrder';
 import {
   CheckCampaignStatusresponse,
   checkCampaignStatusresponseSchema,
 } from '../models/checkCampaignStatusresponse';
 import {
-  ListasingleCampaignbythisPartnerresponse,
-  listasingleCampaignbythisPartnerresponseSchema,
-} from '../models/listasingleCampaignbythisPartnerresponse';
+  ListCampaignResponse,
+  listCampaignResponseSchema,
+} from '../models/listCampaignResponse';
 import {
-  OrderinganewCampaignwithPortfolioV2taxonomyresponse,
-  orderinganewCampaignwithPortfolioV2taxonomyresponseSchema,
-} from '../models/orderinganewCampaignwithPortfolioV2taxonomyresponse';
+  OrderCampaignSuccessResponse,
+  orderCampaignSuccessResponseSchema,
+} from '../models/orderCampaignSuccessResponse';
 import { ResultSet1, resultSet1Schema } from '../models/resultSet1';
 import {
-  TakeaCampaignofflinerequest,
-  takeaCampaignofflinerequestSchema,
-} from '../models/takeaCampaignofflinerequest';
+  TakeCampaignOfflineRequest,
+  takeCampaignOfflineRequestSchema,
+} from '../models/takeCampaignOfflineRequest';
 import {
-  TakeaCampaignofflineresponse,
-  takeaCampaignofflineresponseSchema,
-} from '../models/takeaCampaignofflineresponse';
+  TakeCampaignOfflineResponse,
+  takeCampaignOfflineResponseSchema,
+} from '../models/takeCampaignOfflineResponse';
 import { number, optional, string } from '../schema';
 import { BaseController } from './baseController';
 
@@ -71,14 +71,14 @@ export class CampaignsController extends BaseController {
    *                                              using HAPI Job Post and creating orders with contracts.
    * @return Response from the API call
    */
-  async orderanewCampaign(
+  async orderCampaign(
     body: CampaignOrder,
     companyId?: string,
     limit?: string,
     offset?: string,
     xCustomerId?: string,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<OrderinganewCampaignwithPortfolioV2taxonomyresponse>> {
+  ): Promise<ApiResponse<OrderCampaignSuccessResponse>> {
     const req = this.createRequest('POST', '/campaigns/order');
     const mapped = req.prepareArgs({
       body: [body, campaignOrderSchema],
@@ -93,11 +93,8 @@ export class CampaignsController extends BaseController {
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
     req.json(mapped.body);
-    req.throwOn(400, OrderinganewCampaignwithPortfolioV2taxonomyresponse1Error, '');
-    return req.callAsJson(
-      orderinganewCampaignwithPortfolioV2taxonomyresponseSchema,
-      requestOptions
-    );
+    req.throwOn(400, OrderCampaignErrorResponseError, '');
+    return req.callAsJson(orderCampaignSuccessResponseSchema, requestOptions);
   }
 
   /**
@@ -110,7 +107,7 @@ export class CampaignsController extends BaseController {
    * @param offset    Starting point
    * @return Response from the API call
    */
-  async listallCampaignsbythisPartner(
+  async listCampaigns(
     companyId: string,
     limit?: number,
     offset?: number,
@@ -135,17 +132,14 @@ export class CampaignsController extends BaseController {
    * @param campaignId Id of the Campaign that you want to retrieve
    * @return Response from the API call
    */
-  async retrieveCampaignbythisPartner(
+  async retrieveCampaign(
     campaignId: string,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<ListasingleCampaignbythisPartnerresponse>> {
+  ): Promise<ApiResponse<ListCampaignResponse>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({ campaignId: [campaignId, string()] });
     req.appendTemplatePath`/campaigns/${mapped.campaignId}`;
-    return req.callAsJson(
-      listasingleCampaignbythisPartnerresponseSchema,
-      requestOptions
-    );
+    return req.callAsJson(listCampaignResponseSchema, requestOptions);
   }
 
   /**
@@ -175,21 +169,21 @@ export class CampaignsController extends BaseController {
    * @param body
    * @return Response from the API call
    */
-  async takeaCampaignoffline(
+  async takeCampaignOffline(
     campaignId: string,
-    body: TakeaCampaignofflinerequest,
+    body: TakeCampaignOfflineRequest,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<TakeaCampaignofflineresponse>> {
+  ): Promise<ApiResponse<TakeCampaignOfflineResponse>> {
     const req = this.createRequest('PUT');
     const mapped = req.prepareArgs({
       campaignId: [campaignId, string()],
-      body: [body, takeaCampaignofflinerequestSchema],
+      body: [body, takeCampaignOfflineRequestSchema],
     });
     req.header('Content-Type', 'application/json');
     req.json(mapped.body);
     req.appendTemplatePath`/campaigns/${mapped.campaignId}/cancellation`;
-    req.throwOn(400, TakeaCampaignofflineresponse2Error, '');
-    req.throwOn(404, TakeaCampaignofflineresponse1Error, '');
-    return req.callAsJson(takeaCampaignofflineresponseSchema, requestOptions);
+    req.throwOn(400, TakeCampaignOfflineErrorResponse2Error, '');
+    req.throwOn(404, TakeCampaignOfflineErrorResponseError, '');
+    return req.callAsJson(takeCampaignOfflineResponseSchema, requestOptions);
   }
 }

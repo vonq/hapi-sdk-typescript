@@ -11,31 +11,31 @@ import {
   acceptLanguageEnumSchema,
 } from '../models/acceptLanguageEnum';
 import {
-  Autocompletevaluesforpostingrequirementresponse,
-  autocompletevaluesforpostingrequirementresponseSchema,
-} from '../models/autocompletevaluesforpostingrequirementresponse';
+  AutocompleteValuesResponse,
+  autocompleteValuesResponseSchema,
+} from '../models/autocompleteValuesResponse';
 import { Channel, channelSchema } from '../models/channel';
 import { Contract, contractSchema } from '../models/contract';
 import {
-  Createanewcustomercontractresponse,
-  createanewcustomercontractresponseSchema,
-} from '../models/createanewcustomercontractresponse';
+  CreateContractResponse,
+  createContractResponseSchema,
+} from '../models/createContractResponse';
 import {
   FacetAutocomplete,
   facetAutocompleteSchema,
 } from '../models/facetAutocomplete';
 import {
-  ListchannelswithsupportforcontractsResponse,
-  listchannelswithsupportforcontractsResponseSchema,
-} from '../models/listchannelswithsupportforcontractsResponse';
+  ListChannelsResponse,
+  listChannelsResponseSchema,
+} from '../models/listChannelsResponse';
 import {
-  Listcontractsavailableforacustomerresponse,
-  listcontractsavailableforacustomerresponseSchema,
-} from '../models/listcontractsavailableforacustomerresponse';
+  ListContractsResponse,
+  listContractsResponseSchema,
+} from '../models/listContractsResponse';
 import {
-  Multipledetailsofcustomercontractsresponse,
-  multipledetailsofcustomercontractsresponseSchema,
-} from '../models/multipledetailsofcustomercontractsresponse';
+  MultipleContractsResponse,
+  multipleContractsResponseSchema,
+} from '../models/multipleContractsResponse';
 import { PostContract, postContractSchema } from '../models/postContract';
 import { array, number, optional, string } from '../schema';
 import { BaseController } from './baseController';
@@ -52,13 +52,13 @@ export class ContractsController extends BaseController {
    * @param acceptLanguage  The language the client prefers.
    * @return Response from the API call
    */
-  async listchannelswithsupportforcontracts(
+  async listChannels(
     search?: string,
     limit?: number,
     offset?: number,
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<ListchannelswithsupportforcontractsResponse>> {
+  ): Promise<ApiResponse<ListChannelsResponse>> {
     const req = this.createRequest('GET', '/products/channels/mocs/');
     const mapped = req.prepareArgs({
       search: [search, optional(string())],
@@ -70,10 +70,7 @@ export class ContractsController extends BaseController {
     req.query('search', mapped.search);
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
-    return req.callAsJson(
-      listchannelswithsupportforcontractsResponseSchema,
-      requestOptions
-    );
+    return req.callAsJson(listChannelsResponseSchema, requestOptions);
   }
 
   /**
@@ -81,22 +78,25 @@ export class ContractsController extends BaseController {
    * required details for creating a contract or a campaign for each channel.
    *
    * @param channelId       ID of the channel
+   * @param xCustomerId
    * @param acceptLanguage  The language the client prefers.
    * @return Response from the API call
    */
-  async retrievedetailsforchannelforthisCustomer(
+  async retrieveChannel(
     channelId: string,
+    xCustomerId: string,
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
   ): Promise<ApiResponse<Channel>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       channelId: [channelId, string()],
+      xCustomerId: [xCustomerId, string()],
       acceptLanguage: [acceptLanguage, optional(acceptLanguageEnumSchema)],
     });
+    req.header('X-Customer-Id', mapped.xCustomerId);
     req.header('Accept-Language', mapped.acceptLanguage);
     req.appendTemplatePath`/products/channels/mocs/${mapped.channelId}`;
-    req.authenticate(false);
     return req.callAsJson(channelSchema, requestOptions);
   }
 
@@ -108,12 +108,12 @@ export class ContractsController extends BaseController {
    * @param offset        Starting point
    * @return Response from the API call
    */
-  async listcontractsavailableforacustomer(
+  async listContracts(
     xCustomerId: string,
     limit?: number,
     offset?: number,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Listcontractsavailableforacustomerresponse>> {
+  ): Promise<ApiResponse<ListContractsResponse>> {
     const req = this.createRequest('GET', '/contracts/');
     const mapped = req.prepareArgs({
       xCustomerId: [xCustomerId, string()],
@@ -123,10 +123,7 @@ export class ContractsController extends BaseController {
     req.header('X-Customer-Id', mapped.xCustomerId);
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
-    return req.callAsJson(
-      listcontractsavailableforacustomerresponseSchema,
-      requestOptions
-    );
+    return req.callAsJson(listContractsResponseSchema, requestOptions);
   }
 
   /**
@@ -142,11 +139,11 @@ export class ContractsController extends BaseController {
    * @param body
    * @return Response from the API call
    */
-  async createanewcustomercontract(
+  async createContract(
     xCustomerId: string,
     body: PostContract,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Createanewcustomercontractresponse>> {
+  ): Promise<ApiResponse<CreateContractResponse>> {
     const req = this.createRequest('POST', '/contracts/');
     const mapped = req.prepareArgs({
       xCustomerId: [xCustomerId, string()],
@@ -156,10 +153,7 @@ export class ContractsController extends BaseController {
     req.header('Content-Type', 'application/json');
     req.json(mapped.body);
     req.throwOn(400, ApiError, '');
-    return req.callAsJson(
-      createanewcustomercontractresponseSchema,
-      requestOptions
-    );
+    return req.callAsJson(createContractResponseSchema, requestOptions);
   }
 
   /**
@@ -174,7 +168,7 @@ export class ContractsController extends BaseController {
    * @param xCustomerId   An identifier for the remote customer
    * @return Response from the API call
    */
-  async deleteacontract(
+  async deleteContract(
     contractId: string,
     xCustomerId: string,
     requestOptions?: RequestOptions
@@ -197,7 +191,7 @@ export class ContractsController extends BaseController {
    * @param xCustomerId   An identifier for the remote customer
    * @return Response from the API call
    */
-  async retrieveContractdetailsbythisCustomer(
+  async retrieveContract(
     contractId: string,
     xCustomerId: string,
     requestOptions?: RequestOptions
@@ -216,18 +210,18 @@ export class ContractsController extends BaseController {
    * This endpoint exposes a list of multiple contracts, if available to a specific customer.
    *
    * @param contractsIds
-   * @param xCustomerId   An identifier for the remote customer
+   * @param xCustomerId
    * @param limit         Amount of contracts returned
    * @param offset        Starting point
    * @return Response from the API call
    */
-  async retrievemultiplecontractsbythiscustomer(
+  async retrieveMultipleContracts(
     contractsIds: string[],
     xCustomerId: string,
     limit?: number,
     offset?: number,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Multipledetailsofcustomercontractsresponse>> {
+  ): Promise<ApiResponse<MultipleContractsResponse>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       contractsIds: [contractsIds, array(string())],
@@ -239,10 +233,7 @@ export class ContractsController extends BaseController {
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
     req.appendTemplatePath`/contracts/multiple/${mapped.contractsIds}/`;
-    return req.callAsJson(
-      multipledetailsofcustomercontractsresponseSchema,
-      requestOptions
-    );
+    return req.callAsJson(multipleContractsResponseSchema, requestOptions);
   }
 
   /**
@@ -250,31 +241,27 @@ export class ContractsController extends BaseController {
    *
    * @param channelId                channel_id (number, required)
    * @param postingRequirementName
-   * @param xCustomerId              An identifier for the remote customer
    * @param body
    * @return Response from the API call
    */
-  async listautocompletevaluesforpostingrequirement(
+  async listAutocompleteValues(
     channelId: number,
     postingRequirementName: string,
-    xCustomerId: string,
     body: FacetAutocomplete,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Autocompletevaluesforpostingrequirementresponse[]>> {
+  ): Promise<ApiResponse<AutocompleteValuesResponse[]>> {
     const req = this.createRequest('POST');
     const mapped = req.prepareArgs({
       channelId: [channelId, number()],
       postingRequirementName: [postingRequirementName, string()],
-      xCustomerId: [xCustomerId, string()],
       body: [body, facetAutocompleteSchema],
     });
-    req.header('X-Customer-Id', mapped.xCustomerId);
     req.header('Content-Type', 'application/json');
     req.json(mapped.body);
     req.appendTemplatePath`/contracts/posting-requirements/${mapped.channelId}/${mapped.postingRequirementName}/`;
     req.throwOn(400, ApiError, '');
     return req.callAsJson(
-      array(autocompletevaluesforpostingrequirementresponseSchema),
+      array(autocompleteValuesResponseSchema),
       requestOptions
     );
   }
