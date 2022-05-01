@@ -10,11 +10,233 @@ const campaignsController = new CampaignsController(client);
 
 ## Methods
 
-* [Order Campaign](../../doc/controllers/campaigns.md#order-campaign)
-* [List Campaigns](../../doc/controllers/campaigns.md#list-campaigns)
-* [Retrieve Campaign](../../doc/controllers/campaigns.md#retrieve-campaign)
 * [Check Campaign Status](../../doc/controllers/campaigns.md#check-campaign-status)
+* [List Campaigns](../../doc/controllers/campaigns.md#list-campaigns)
+* [Order Campaign](../../doc/controllers/campaigns.md#order-campaign)
+* [Retrieve Campaign](../../doc/controllers/campaigns.md#retrieve-campaign)
 * [Take Campaign Offline](../../doc/controllers/campaigns.md#take-campaign-offline)
+
+
+# Check Campaign Status
+
+This is a specialized endpoint for Campaign statuses only. Although the Campaign Details endpoint also returns the
+status of a campaign, if you only need to get the specific status of a Campaign, this endpoint is
+optimized for that.
+
+```ts
+async checkCampaignStatus(
+  campaignId: string,
+  requestOptions?: RequestOptions
+): Promise<ApiResponse<CheckCampaignStatusresponseModel>>
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `campaignId` | `string` | Template, Required | Id of the Campaign you want the status of |
+| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
+
+## Response Type
+
+[`CheckCampaignStatusresponseModel`](../../doc/models/check-campaign-statusresponse-model.md)
+
+## Example Usage
+
+```ts
+const campaignId = '000026a2-0000-0000-0000-000000000000';
+try {
+  const { result, ...httpResponse } = await campaignsController.checkCampaignStatus(campaignId);
+  // Get more response info...
+  // const { statusCode, headers } = httpResponse;
+} catch(error) {
+  if (error instanceof ApiError) {
+    const errors = error.result;
+    // const { statusCode, headers } = error;
+  }
+}
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "data": {
+    "campaignId": "ffb37e76-d4fe-5ad6-8441-b02c1b15aa4c",
+    "status": "online",
+    "orderedProductsStatuses": [
+      {
+        "productId": "8eefb7a1-c5f3-5739-9fe6-cea17e2ee742",
+        "status": "online",
+        "statusDescription": "null"
+      }
+    ]
+  }
+}
+```
+
+
+# List Campaigns
+
+Displays all the existing Campaigns already ordered for this Partner is as simple as executing a `GET`
+request against the endpoint `/campaigns`
+
+```ts
+async listCampaigns(
+  companyId: string,
+  limit?: number,
+  offset?: number,
+  requestOptions?: RequestOptions
+): Promise<ApiResponse<ResultSet1Model>>
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `companyId` | `string` | Query, Required | CompanyId to filter the results on |
+| `limit` | `number \| undefined` | Query, Optional | Amount of products returned |
+| `offset` | `number \| undefined` | Query, Optional | Starting point |
+| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
+
+## Response Type
+
+[`ResultSet1Model`](../../doc/models/result-set-1-model.md)
+
+## Example Usage
+
+```ts
+const companyId = 'companyId0';
+try {
+  const { result, ...httpResponse } = await campaignsController.listCampaigns(companyId);
+  // Get more response info...
+  // const { statusCode, headers } = httpResponse;
+} catch(error) {
+  if (error instanceof ApiError) {
+    const errors = error.result;
+    // const { statusCode, headers } = error;
+  }
+}
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "total": 1337,
+  "limit": 50,
+  "offset": 0,
+  "data": [
+    {
+      "companyId": "dd1c5be0-b0e1-41c8-ba92-e876da16c38b",
+      "orderReference": "PO_567_2019",
+      "recruiterInfo": {
+        "id": "af78ce39-94a8-45dc-8c68-35f4d684fa5f",
+        "name": "John Doe",
+        "emailAddress": "john.doe@vonq.com"
+      },
+      "campaignName": "Software Development Manager",
+      "postingDetails": {
+        "title": "Come work for us, we're looking for amazing Software Developers",
+        "description": "Are you a LEADER and a BUILDER?  Global is looking for individuals who are dynamic, sales-oriented, and who want to control their destiny.  With a full training programme and consistent support, Global will provide you with the tools to excel in this very lucrative business.",
+        "organization": {
+          "name": "Vonq",
+          "companyLogo": "http://static.ats.com/public/vonq-company-logo.png"
+        },
+        "workingLocation": {
+          "addressLine1": "Westblaak 175",
+          "postcode": "3012 KJ",
+          "city": "Rotterdam",
+          "country": "The Netherlands",
+          "allowsRemoteWork": 0
+        },
+        "contactInfo": {
+          "name": "Janet Doe",
+          "phoneNumber": "+31 6 5555 5555",
+          "emailAddress": "janet.doe@vonq.com"
+        },
+        "yearsOfExperience": 5,
+        "employmentType": "permanent",
+        "weeklyWorkingHours": {
+          "from": 32,
+          "to": 40
+        },
+        "salaryIndication": {
+          "period": "yearly",
+          "range": {
+            "from": 56000,
+            "to": 60000,
+            "currency": "EUR"
+          }
+        },
+        "jobPageUrl": "http://amadeus-hospitality-it-careers.com/vacancy/software-development-manager-breda",
+        "applicationUrl": "http://amadeus-hospitality-it-careers.com/vacancy/software-development-manager-breda/apply"
+      },
+      "targetGroup": {
+        "educationLevel": [
+          {
+            "description": "Vendor-specific value",
+            "vonqId": "23"
+          }
+        ],
+        "seniority": [
+          {
+            "description": "Vendor-specific value",
+            "vonqId": "23"
+          }
+        ],
+        "industry": [
+          {
+            "description": "Vendor-specific value",
+            "vonqId": "23"
+          }
+        ],
+        "jobCategory": [
+          {
+            "description": "Vendor-specific value",
+            "vonqId": "23"
+          }
+        ]
+      },
+      "orderedProducts": [
+        "89",
+        "889",
+        "2cbad29e-a510-52fc-bbdf-e873320e89f5"
+      ],
+      "orderedProductsSpecs": [
+        {
+          "productId": "2cbad29e-a510-52fc-bbdf-e873320e89f5",
+          "status": "online",
+          "statusDescription": "",
+          "deliveredOn": "2020-11-30T11:00:15+0000",
+          "duration": "20 days",
+          "durationPeriod": {
+            "range": "days",
+            "period": 30
+          },
+          "utm": "utm_medium=social&utm_source=facebook&utm_campaign=example",
+          "jobBoardLink": "http://job.ad.com/software-developer",
+          "contractId": "06a8f6f0-5e0e-4614-869e-ab95a8530633",
+          "postingRequirements": {
+            "someText": "example",
+            "multipleSelectField": [
+              "123",
+              "234"
+            ],
+            "someIntValue": 22
+          }
+        }
+      ],
+      "postings": [
+        {
+          "name": "Linkedin.com 30 days",
+          "clicks": 14
+        }
+      ]
+    }
+  ]
+}
+```
 
 
 # Order Campaign
@@ -229,169 +451,6 @@ try {
 | 400 | - | [`OrderCampaignErrorResponseError`](../../doc/models/order-campaign-error-response-error.md) |
 
 
-# List Campaigns
-
-Displays all the existing Campaigns already ordered for this Partner is as simple as executing a `GET`
-request against the endpoint `/campaigns`
-
-```ts
-async listCampaigns(
-  companyId: string,
-  limit?: number,
-  offset?: number,
-  requestOptions?: RequestOptions
-): Promise<ApiResponse<ResultSet1Model>>
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `companyId` | `string` | Query, Required | CompanyId to filter the results on |
-| `limit` | `number \| undefined` | Query, Optional | Amount of products returned |
-| `offset` | `number \| undefined` | Query, Optional | Starting point |
-| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
-
-## Response Type
-
-[`ResultSet1Model`](../../doc/models/result-set-1-model.md)
-
-## Example Usage
-
-```ts
-const companyId = 'companyId0';
-try {
-  const { result, ...httpResponse } = await campaignsController.listCampaigns(companyId);
-  // Get more response info...
-  // const { statusCode, headers } = httpResponse;
-} catch(error) {
-  if (error instanceof ApiError) {
-    const errors = error.result;
-    // const { statusCode, headers } = error;
-  }
-}
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "total": 1337,
-  "limit": 50,
-  "offset": 0,
-  "data": [
-    {
-      "companyId": "dd1c5be0-b0e1-41c8-ba92-e876da16c38b",
-      "orderReference": "PO_567_2019",
-      "recruiterInfo": {
-        "id": "af78ce39-94a8-45dc-8c68-35f4d684fa5f",
-        "name": "John Doe",
-        "emailAddress": "john.doe@vonq.com"
-      },
-      "campaignName": "Software Development Manager",
-      "postingDetails": {
-        "title": "Come work for us, we're looking for amazing Software Developers",
-        "description": "Are you a LEADER and a BUILDER?  Global is looking for individuals who are dynamic, sales-oriented, and who want to control their destiny.  With a full training programme and consistent support, Global will provide you with the tools to excel in this very lucrative business.",
-        "organization": {
-          "name": "Vonq",
-          "companyLogo": "http://static.ats.com/public/vonq-company-logo.png"
-        },
-        "workingLocation": {
-          "addressLine1": "Westblaak 175",
-          "postcode": "3012 KJ",
-          "city": "Rotterdam",
-          "country": "The Netherlands",
-          "allowsRemoteWork": 0
-        },
-        "contactInfo": {
-          "name": "Janet Doe",
-          "phoneNumber": "+31 6 5555 5555",
-          "emailAddress": "janet.doe@vonq.com"
-        },
-        "yearsOfExperience": 5,
-        "employmentType": "permanent",
-        "weeklyWorkingHours": {
-          "from": 32,
-          "to": 40
-        },
-        "salaryIndication": {
-          "period": "yearly",
-          "range": {
-            "from": 56000,
-            "to": 60000,
-            "currency": "EUR"
-          }
-        },
-        "jobPageUrl": "http://amadeus-hospitality-it-careers.com/vacancy/software-development-manager-breda",
-        "applicationUrl": "http://amadeus-hospitality-it-careers.com/vacancy/software-development-manager-breda/apply"
-      },
-      "targetGroup": {
-        "educationLevel": [
-          {
-            "description": "Vendor-specific value",
-            "vonqId": "23"
-          }
-        ],
-        "seniority": [
-          {
-            "description": "Vendor-specific value",
-            "vonqId": "23"
-          }
-        ],
-        "industry": [
-          {
-            "description": "Vendor-specific value",
-            "vonqId": "23"
-          }
-        ],
-        "jobCategory": [
-          {
-            "description": "Vendor-specific value",
-            "vonqId": "23"
-          }
-        ]
-      },
-      "orderedProducts": [
-        "89",
-        "889",
-        "2cbad29e-a510-52fc-bbdf-e873320e89f5"
-      ],
-      "orderedProductsSpecs": [
-        {
-          "productId": "2cbad29e-a510-52fc-bbdf-e873320e89f5",
-          "status": "online",
-          "statusDescription": "",
-          "deliveredOn": "2020-11-30T11:00:15+0000",
-          "duration": "20 days",
-          "durationPeriod": {
-            "range": "days",
-            "period": 30
-          },
-          "utm": "utm_medium=social&utm_source=facebook&utm_campaign=example",
-          "jobBoardLink": "http://job.ad.com/software-developer",
-          "contractId": "06a8f6f0-5e0e-4614-869e-ab95a8530633",
-          "postingRequirements": {
-            "someText": "example",
-            "multipleSelectField": [
-              "123",
-              "234"
-            ],
-            "someIntValue": 22
-          }
-        }
-      ],
-      "postings": [
-        {
-          "name": "Linkedin.com 30 days",
-          "clicks": 14
-        }
-      ]
-    }
-  ]
-}
-```
-
-
 # Retrieve Campaign
 
 Retrieve the details of a specific Campaign. Only Campaigns created by the calling Partner can be
@@ -539,65 +598,6 @@ try {
       {
         "name": "Linkedin.com 30 days",
         "clicks": 14
-      }
-    ]
-  }
-}
-```
-
-
-# Check Campaign Status
-
-This is a specialized endpoint for Campaign statuses only. Although the Campaign Details endpoint also returns the
-status of a campaign, if you only need to get the specific status of a Campaign, this endpoint is
-optimized for that.
-
-```ts
-async checkCampaignStatus(
-  campaignId: string,
-  requestOptions?: RequestOptions
-): Promise<ApiResponse<CheckCampaignStatusresponseModel>>
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `campaignId` | `string` | Template, Required | Id of the Campaign you want the status of |
-| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
-
-## Response Type
-
-[`CheckCampaignStatusresponseModel`](../../doc/models/check-campaign-statusresponse-model.md)
-
-## Example Usage
-
-```ts
-const campaignId = '000026a2-0000-0000-0000-000000000000';
-try {
-  const { result, ...httpResponse } = await campaignsController.checkCampaignStatus(campaignId);
-  // Get more response info...
-  // const { statusCode, headers } = httpResponse;
-} catch(error) {
-  if (error instanceof ApiError) {
-    const errors = error.result;
-    // const { statusCode, headers } = error;
-  }
-}
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "data": {
-    "campaignId": "ffb37e76-d4fe-5ad6-8441-b02c1b15aa4c",
-    "status": "online",
-    "orderedProductsStatuses": [
-      {
-        "productId": "8eefb7a1-c5f3-5739-9fe6-cea17e2ee742",
-        "status": "online",
-        "statusDescription": "null"
       }
     ]
   }
