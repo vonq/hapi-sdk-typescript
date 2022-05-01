@@ -113,7 +113,7 @@ Run the following commands in the command prompt or shell of your choice to chec
 
 * npm: `npm --version`
 
-![Version Check](https://apidocs.io/illustration/typescript?workspaceFolder=VONQHiringAPI&step=versionCheck)
+![Version Check](https://apidocs.io/illustration/typescript?workspaceFolder=HAPI&step=versionCheck)
 
 ### Install Dependencies
 
@@ -125,7 +125,7 @@ npm install
 
 - This will install all dependencies in the **node_modules** folder.
 
-![Resolve Dependencies](https://apidocs.io/illustration/typescript?workspaceFolder=VONQHiringAPI&workspaceName=vonq-hiring-apilib&step=resolveDependency)
+![Resolve Dependencies](https://apidocs.io/illustration/typescript?workspaceFolder=HAPI&workspaceName=vonq-hiring-apilib&step=resolveDependency)
 
 ## Installation
 
@@ -151,7 +151,7 @@ npm init --y
 
 - The created project manages its dependencies using its `package.json` file. In order to add a dependency on the *VONQ Hiring APILib* client library, double click on the `package.json` file in the bar on the left and add the dependency to the package in it.
 
-![Add VonqHiringApilib Dependency](https://apidocs.io/illustration/typescript?workspaceFolder=VONQHiringAPI&workspaceName=vonq-hiring-apilib&step=importDependency)
+![Add VonqHiringApilib Dependency](https://apidocs.io/illustration/typescript?workspaceFolder=HAPI&workspaceName=vonq-hiring-apilib&step=importDependency)
 
 - To install the package in the project, run the following command in the terminal:
 
@@ -223,9 +223,9 @@ This API uses `Custom Header Signature`.
 
 ## List of APIs
 
-* [Portfolio](doc/controllers/portfolio.md)
-* [Contracts](doc/controllers/contracts.md)
 * [Campaigns](doc/controllers/campaigns.md)
+* [Contracts](doc/controllers/contracts.md)
+* [Portfolio](doc/controllers/portfolio.md)
 * [Taxonomy](doc/controllers/taxonomy.md)
 
 ## Classes Documentation

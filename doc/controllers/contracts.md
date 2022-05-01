@@ -10,14 +10,206 @@ const contractsController = new ContractsController(client);
 
 ## Methods
 
-* [List Channels](../../doc/controllers/contracts.md#list-channels)
-* [Retrieve Channel](../../doc/controllers/contracts.md#retrieve-channel)
-* [List Contracts](../../doc/controllers/contracts.md#list-contracts)
 * [Create Contract](../../doc/controllers/contracts.md#create-contract)
 * [Delete Contract](../../doc/controllers/contracts.md#delete-contract)
+* [List Autocomplete Values](../../doc/controllers/contracts.md#list-autocomplete-values)
+* [List Channels](../../doc/controllers/contracts.md#list-channels)
+* [List Contracts](../../doc/controllers/contracts.md#list-contracts)
+* [Retrieve Channel](../../doc/controllers/contracts.md#retrieve-channel)
 * [Retrieve Contract](../../doc/controllers/contracts.md#retrieve-contract)
 * [Retrieve Multiple Contracts](../../doc/controllers/contracts.md#retrieve-multiple-contracts)
-* [List Autocomplete Values](../../doc/controllers/contracts.md#list-autocomplete-values)
+
+
+# Create Contract
+
+This endpoint creates a new customer contract. It requires a reference to a channel, a credential payload, and the facets set for the contracted product.
+
+HAPI doesn't support contract editing, because job boards require the same credentials to be able to delete already posted jobs via that contract at a later moment. Otherwise, deleting jobs would not be possible. To edit contract credentials, the credentials need to be deleted first, and then recreated. When deleted, all corresponding jobs can't be deleted anymore
+
+```ts
+async createContract(
+  xCustomerId: string,
+  body: PostContractModel,
+  requestOptions?: RequestOptions
+): Promise<ApiResponse<CreateContractResponseModel>>
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `xCustomerId` | `string` | Header, Required | An identifier for the remote customer |
+| `body` | [`PostContractModel`](../../doc/models/post-contract-model.md) | Body, Required | - |
+| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
+
+## Response Type
+
+[`CreateContractResponseModel`](../../doc/models/create-contract-response-model.md)
+
+## Example Usage
+
+```ts
+const xCustomerId = 'X-Customer-Id2';
+const contentType = null;
+const body: PostContract = {};
+
+try {
+  const { result, ...httpResponse } = await contractsController.createContract(xCustomerId, body);
+  // Get more response info...
+  // const { statusCode, headers } = httpResponse;
+} catch(error) {
+  if (error instanceof ApiError) {
+    const errors = error.result;
+    // const { statusCode, headers } = error;
+  }
+}
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
+  "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
+  "channel_id": 13,
+  "credentials": "",
+  "class_name": "",
+  "facets": {},
+  "product": {
+    "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
+    "title": "product title"
+  },
+  "posting_requirements": "",
+  "expiry_date": "2022-02-15T12:03:45.053Z",
+  "credits": 0,
+  "purchase_price": {
+    "amount": 0,
+    "currency": "string"
+  }
+}
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 400 | - | `ApiError` |
+
+
+# Delete Contract
+
+This endpoint deletes a contract.
+
+HAPI doesn't support contract editing, because job boards require the same credentials to be able to delete already posted jobs via that contract at a later moment. Otherwise, deleting jobs would not be possible. To edit contract credentials, the credentials need to be deleted first, and then recreated. When deleted, all corresponding jobs can't be deleted anymore
+
+```ts
+async deleteContract(
+  contractId: string,
+  xCustomerId: string,
+  requestOptions?: RequestOptions
+): Promise<ApiResponse<void>>
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `contractId` | `string` | Template, Required | - |
+| `xCustomerId` | `string` | Header, Required | An identifier for the remote customer |
+| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
+
+## Response Type
+
+`void`
+
+## Example Usage
+
+```ts
+const contractId = 'contract_id8';
+const xCustomerId = 'X-Customer-Id2';
+try {
+  const { result, ...httpResponse } = await contractsController.deleteContract(contractId, xCustomerId);
+  // Get more response info...
+  // const { statusCode, headers } = httpResponse;
+} catch(error) {
+  if (error instanceof ApiError) {
+    const errors = error.result;
+    // const { statusCode, headers } = error;
+  }
+}
+```
+
+
+# List Autocomplete Values
+
+This endpoint exposes autocomplete items given a `channel_id` and a posting requirement name.
+
+```ts
+async listAutocompleteValues(
+  channelId: number,
+  postingRequirementName: string,
+  body: FacetAutocompleteModel,
+  requestOptions?: RequestOptions
+): Promise<ApiResponse<AutocompleteValuesResponseModel[]>>
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `channelId` | `number` | Template, Required | channel_id (number, required) |
+| `postingRequirementName` | `string` | Template, Required | - |
+| `body` | [`FacetAutocompleteModel`](../../doc/models/facet-autocomplete-model.md) | Body, Required | - |
+| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
+
+## Response Type
+
+[`AutocompleteValuesResponseModel[]`](../../doc/models/autocomplete-values-response-model.md)
+
+## Example Usage
+
+```ts
+const channelId = 105.24;
+const postingRequirementName = 'posting-requirement-name2';
+const contentType = null;
+const body: FacetAutocomplete = {};
+
+try {
+  const { result, ...httpResponse } = await contractsController.listAutocompleteValues(channelId, postingRequirementName, body);
+  // Get more response info...
+  // const { statusCode, headers } = httpResponse;
+} catch(error) {
+  if (error instanceof ApiError) {
+    const errors = error.result;
+    // const { statusCode, headers } = error;
+  }
+}
+```
+
+## Example Response *(as JSON)*
+
+```json
+[
+  {
+    "key": "A key",
+    "label": "A label"
+  },
+  {
+    "key": "A key",
+    "label": "A label"
+  },
+  {
+    "key": "A key",
+    "label": "A label"
+  }
+]
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 400 | - | `ApiError` |
 
 
 # List Channels
@@ -61,6 +253,93 @@ try {
     const errors = error.result;
     // const { statusCode, headers } = error;
   }
+}
+```
+
+
+# List Contracts
+
+This endpoint exposes a list of contract available to a particular customer.
+
+```ts
+async listContracts(
+  xCustomerId: string,
+  limit?: number,
+  offset?: number,
+  requestOptions?: RequestOptions
+): Promise<ApiResponse<ListContractsResponseModel>>
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `xCustomerId` | `string` | Header, Required | An identifier for the remote customer |
+| `limit` | `number \| undefined` | Query, Optional | Amount of contracts returned |
+| `offset` | `number \| undefined` | Query, Optional | Starting point |
+| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
+
+## Response Type
+
+[`ListContractsResponseModel`](../../doc/models/list-contracts-response-model.md)
+
+## Example Usage
+
+```ts
+const xCustomerId = 'X-Customer-Id2';
+try {
+  const { result, ...httpResponse } = await contractsController.listContracts(xCustomerId);
+  // Get more response info...
+  // const { statusCode, headers } = httpResponse;
+} catch(error) {
+  if (error instanceof ApiError) {
+    const errors = error.result;
+    // const { statusCode, headers } = error;
+  }
+}
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "count": 2,
+  "next": "string",
+  "previous": "string",
+  "results": [
+    {
+      "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
+      "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
+      "channel_id": 13,
+      "credentials": "",
+      "class_name": "",
+      "facets": {},
+      "product": {
+        "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
+        "title": "product title"
+      },
+      "posting_requirements": "",
+      "expiry_date": "2022-02-15T12:03:45.053Z",
+      "credits": 0,
+      "purchase_price": {
+        "amount": 0,
+        "currency": "string"
+      }
+    },
+    {
+      "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
+      "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
+      "channel_id": 13,
+      "credentials": "",
+      "class_name": "",
+      "facets": {},
+      "product": {
+        "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
+        "title": "product title"
+      },
+      "posting_requirements": ""
+    }
+  ]
 }
 ```
 
@@ -4232,213 +4511,6 @@ try {
 ```
 
 
-# List Contracts
-
-This endpoint exposes a list of contract available to a particular customer.
-
-```ts
-async listContracts(
-  xCustomerId: string,
-  limit?: number,
-  offset?: number,
-  requestOptions?: RequestOptions
-): Promise<ApiResponse<ListContractsResponseModel>>
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `xCustomerId` | `string` | Header, Required | An identifier for the remote customer |
-| `limit` | `number \| undefined` | Query, Optional | Amount of contracts returned |
-| `offset` | `number \| undefined` | Query, Optional | Starting point |
-| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
-
-## Response Type
-
-[`ListContractsResponseModel`](../../doc/models/list-contracts-response-model.md)
-
-## Example Usage
-
-```ts
-const xCustomerId = 'X-Customer-Id2';
-try {
-  const { result, ...httpResponse } = await contractsController.listContracts(xCustomerId);
-  // Get more response info...
-  // const { statusCode, headers } = httpResponse;
-} catch(error) {
-  if (error instanceof ApiError) {
-    const errors = error.result;
-    // const { statusCode, headers } = error;
-  }
-}
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "count": 2,
-  "next": "string",
-  "previous": "string",
-  "results": [
-    {
-      "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
-      "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
-      "channel_id": 13,
-      "credentials": "",
-      "class_name": "",
-      "facets": {},
-      "product": {
-        "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
-        "title": "product title"
-      },
-      "posting_requirements": "",
-      "expiry_date": "2022-02-15T12:03:45.053Z",
-      "credits": 0,
-      "purchase_price": {
-        "amount": 0,
-        "currency": "string"
-      }
-    },
-    {
-      "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
-      "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
-      "channel_id": 13,
-      "credentials": "",
-      "class_name": "",
-      "facets": {},
-      "product": {
-        "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
-        "title": "product title"
-      },
-      "posting_requirements": ""
-    }
-  ]
-}
-```
-
-
-# Create Contract
-
-This endpoint creates a new customer contract. It requires a reference to a channel, a credential payload, and the facets set for the contracted product.
-
-HAPI doesn't support contract editing, because job boards require the same credentials to be able to delete already posted jobs via that contract at a later moment. Otherwise, deleting jobs would not be possible. To edit contract credentials, the credentials need to be deleted first, and then recreated. When deleted, all corresponding jobs can't be deleted anymore
-
-```ts
-async createContract(
-  xCustomerId: string,
-  body: PostContractModel,
-  requestOptions?: RequestOptions
-): Promise<ApiResponse<CreateContractResponseModel>>
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `xCustomerId` | `string` | Header, Required | An identifier for the remote customer |
-| `body` | [`PostContractModel`](../../doc/models/post-contract-model.md) | Body, Required | - |
-| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
-
-## Response Type
-
-[`CreateContractResponseModel`](../../doc/models/create-contract-response-model.md)
-
-## Example Usage
-
-```ts
-const xCustomerId = 'X-Customer-Id2';
-const contentType = null;
-const body: PostContract = {};
-
-try {
-  const { result, ...httpResponse } = await contractsController.createContract(xCustomerId, body);
-  // Get more response info...
-  // const { statusCode, headers } = httpResponse;
-} catch(error) {
-  if (error instanceof ApiError) {
-    const errors = error.result;
-    // const { statusCode, headers } = error;
-  }
-}
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
-  "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
-  "channel_id": 13,
-  "credentials": "",
-  "class_name": "",
-  "facets": {},
-  "product": {
-    "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
-    "title": "product title"
-  },
-  "posting_requirements": "",
-  "expiry_date": "2022-02-15T12:03:45.053Z",
-  "credits": 0,
-  "purchase_price": {
-    "amount": 0,
-    "currency": "string"
-  }
-}
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 400 | - | `ApiError` |
-
-
-# Delete Contract
-
-This endpoint deletes a contract.
-
-HAPI doesn't support contract editing, because job boards require the same credentials to be able to delete already posted jobs via that contract at a later moment. Otherwise, deleting jobs would not be possible. To edit contract credentials, the credentials need to be deleted first, and then recreated. When deleted, all corresponding jobs can't be deleted anymore
-
-```ts
-async deleteContract(
-  contractId: string,
-  xCustomerId: string,
-  requestOptions?: RequestOptions
-): Promise<ApiResponse<void>>
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `contractId` | `string` | Template, Required | - |
-| `xCustomerId` | `string` | Header, Required | An identifier for the remote customer |
-| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
-
-## Response Type
-
-`void`
-
-## Example Usage
-
-```ts
-const contractId = 'contract_id8';
-const xCustomerId = 'X-Customer-Id2';
-try {
-  const { result, ...httpResponse } = await contractsController.deleteContract(contractId, xCustomerId);
-  // Get more response info...
-  // const { statusCode, headers } = httpResponse;
-} catch(error) {
-  if (error instanceof ApiError) {
-    const errors = error.result;
-    // const { statusCode, headers } = error;
-  }
-}
-```
-
-
 # Retrieve Contract
 
 This endpoint retrieves the detail for a customer contract. It contains a reference to a channel, an (encrypted) credential payload, and the facets set for the My Contracts product.
@@ -4587,76 +4659,4 @@ try {
   ]
 }
 ```
-
-
-# List Autocomplete Values
-
-This endpoint exposes autocomplete items given a `channel_id` and a posting requirement name.
-
-```ts
-async listAutocompleteValues(
-  channelId: number,
-  postingRequirementName: string,
-  body: FacetAutocompleteModel,
-  requestOptions?: RequestOptions
-): Promise<ApiResponse<AutocompleteValuesResponseModel[]>>
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `channelId` | `number` | Template, Required | channel_id (number, required) |
-| `postingRequirementName` | `string` | Template, Required | - |
-| `body` | [`FacetAutocompleteModel`](../../doc/models/facet-autocomplete-model.md) | Body, Required | - |
-| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
-
-## Response Type
-
-[`AutocompleteValuesResponseModel[]`](../../doc/models/autocomplete-values-response-model.md)
-
-## Example Usage
-
-```ts
-const channelId = 105.24;
-const postingRequirementName = 'posting-requirement-name2';
-const contentType = null;
-const body: FacetAutocomplete = {};
-
-try {
-  const { result, ...httpResponse } = await contractsController.listAutocompleteValues(channelId, postingRequirementName, body);
-  // Get more response info...
-  // const { statusCode, headers } = httpResponse;
-} catch(error) {
-  if (error instanceof ApiError) {
-    const errors = error.result;
-    // const { statusCode, headers } = error;
-  }
-}
-```
-
-## Example Response *(as JSON)*
-
-```json
-[
-  {
-    "key": "A key",
-    "label": "A label"
-  },
-  {
-    "key": "A key",
-    "label": "A label"
-  },
-  {
-    "key": "A key",
-    "label": "A label"
-  }
-]
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 400 | - | `ApiError` |
 

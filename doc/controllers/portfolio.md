@@ -10,10 +10,147 @@ const portfolioController = new PortfolioController(client);
 
 ## Methods
 
-* [Search Products](../../doc/controllers/portfolio.md#search-products)
-* [Retrieve Single Product](../../doc/controllers/portfolio.md#retrieve-single-product)
-* [Retrieve Multiple Products](../../doc/controllers/portfolio.md#retrieve-multiple-products)
 * [Calculate Order Delivery Time](../../doc/controllers/portfolio.md#calculate-order-delivery-time)
+* [Retrieve Multiple Products](../../doc/controllers/portfolio.md#retrieve-multiple-products)
+* [Retrieve Single Product](../../doc/controllers/portfolio.md#retrieve-single-product)
+* [Search Products](../../doc/controllers/portfolio.md#search-products)
+
+
+# Calculate Order Delivery Time
+
+This endpoint calculates total number of days to process and setup a campaign containing a list of Products, given a comma-separated list of their ids.
+
+```ts
+async calculateOrderDeliveryTime(
+  productsIds: string[],
+  requestOptions?: RequestOptions
+): Promise<ApiResponse<ProductsDeliveryTimeModel[]>>
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `productsIds` | `string[]` | Template, Required | - |
+| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
+
+## Response Type
+
+[`ProductsDeliveryTimeModel[]`](../../doc/models/products-delivery-time-model.md)
+
+## Example Usage
+
+```ts
+const ProductsIds: string[] = ['products_ids7', 'products_ids8'];
+try {
+  const { result, ...httpResponse } = await portfolioController.calculateOrderDeliveryTime(productsIds);
+  // Get more response info...
+  // const { statusCode, headers } = httpResponse;
+} catch(error) {
+  if (error instanceof ApiError) {
+    const errors = error.result;
+    // const { statusCode, headers } = error;
+  }
+}
+```
+
+## Example Response *(as JSON)*
+
+```json
+[
+  {
+    "days_to_process": 1,
+    "days_to_setup": 1,
+    "total_days": 2
+  }
+]
+```
+
+
+# Retrieve Multiple Products
+
+Sometimes you already have access to the Identification codes of more than one Product and you want to retrieve the most up-to-date information about them.
+Besides the default English, German and Dutch result translations can be requested by specifying an `Accept-Language: [de|nl]` header.
+
+```ts
+async retrieveMultipleProducts(
+  productsIds: string[],
+  acceptLanguage?: AcceptLanguageEnum,
+  requestOptions?: RequestOptions
+): Promise<ApiResponse<ProductModel[]>>
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `productsIds` | `string[]` | Template, Required | - |
+| `acceptLanguage` | [`AcceptLanguageEnum \| undefined`](../../doc/models/accept-language-enum.md) | Header, Optional | - |
+| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
+
+## Response Type
+
+[`ProductModel[]`](../../doc/models/product-model.md)
+
+## Example Usage
+
+```ts
+const ProductsIds: string[] = ['products_ids7', 'products_ids8'];
+const acceptLanguage = 'en';
+try {
+  const { result, ...httpResponse } = await portfolioController.retrieveMultipleProducts(productsIds, acceptLanguage);
+  // Get more response info...
+  // const { statusCode, headers } = httpResponse;
+} catch(error) {
+  if (error instanceof ApiError) {
+    const errors = error.result;
+    // const { statusCode, headers } = error;
+  }
+}
+```
+
+
+# Retrieve Single Product
+
+Sometimes you already have access to the Identification code of any particular Product and you want to retrieve the most up-to-date information about it.
+Besides the default English, German and Dutch result translations can be requested by specifying an `Accept-Language: [de|nl]` header.
+
+```ts
+async retrieveSingleProduct(
+  productId: string,
+  acceptLanguage?: AcceptLanguageEnum,
+  requestOptions?: RequestOptions
+): Promise<ApiResponse<ProductModel>>
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `productId` | `string` | Template, Required | - |
+| `acceptLanguage` | [`AcceptLanguageEnum \| undefined`](../../doc/models/accept-language-enum.md) | Header, Optional | - |
+| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
+
+## Response Type
+
+[`ProductModel`](../../doc/models/product-model.md)
+
+## Example Usage
+
+```ts
+const productId = 'product_id4';
+const acceptLanguage = 'en';
+try {
+  const { result, ...httpResponse } = await portfolioController.retrieveSingleProduct(productId, acceptLanguage);
+  // Get more response info...
+  // const { statusCode, headers } = httpResponse;
+} catch(error) {
+  if (error instanceof ApiError) {
+    const errors = error.result;
+    // const { statusCode, headers } = error;
+  }
+}
+```
 
 
 # Search Products
@@ -97,141 +234,4 @@ try {
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
 | 400 | - | `ApiError` |
-
-
-# Retrieve Single Product
-
-Sometimes you already have access to the Identification code of any particular Product and you want to retrieve the most up-to-date information about it.
-Besides the default English, German and Dutch result translations can be requested by specifying an `Accept-Language: [de|nl]` header.
-
-```ts
-async retrieveSingleProduct(
-  productId: string,
-  acceptLanguage?: AcceptLanguageEnum,
-  requestOptions?: RequestOptions
-): Promise<ApiResponse<ProductModel>>
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `productId` | `string` | Template, Required | - |
-| `acceptLanguage` | [`AcceptLanguageEnum \| undefined`](../../doc/models/accept-language-enum.md) | Header, Optional | - |
-| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
-
-## Response Type
-
-[`ProductModel`](../../doc/models/product-model.md)
-
-## Example Usage
-
-```ts
-const productId = 'product_id4';
-const acceptLanguage = 'en';
-try {
-  const { result, ...httpResponse } = await portfolioController.retrieveSingleProduct(productId, acceptLanguage);
-  // Get more response info...
-  // const { statusCode, headers } = httpResponse;
-} catch(error) {
-  if (error instanceof ApiError) {
-    const errors = error.result;
-    // const { statusCode, headers } = error;
-  }
-}
-```
-
-
-# Retrieve Multiple Products
-
-Sometimes you already have access to the Identification codes of more than one Product and you want to retrieve the most up-to-date information about them.
-Besides the default English, German and Dutch result translations can be requested by specifying an `Accept-Language: [de|nl]` header.
-
-```ts
-async retrieveMultipleProducts(
-  productsIds: string[],
-  acceptLanguage?: AcceptLanguageEnum,
-  requestOptions?: RequestOptions
-): Promise<ApiResponse<ProductModel[]>>
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `productsIds` | `string[]` | Template, Required | - |
-| `acceptLanguage` | [`AcceptLanguageEnum \| undefined`](../../doc/models/accept-language-enum.md) | Header, Optional | - |
-| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
-
-## Response Type
-
-[`ProductModel[]`](../../doc/models/product-model.md)
-
-## Example Usage
-
-```ts
-const ProductsIds: string[] = ['products_ids7', 'products_ids8'];
-const acceptLanguage = 'en';
-try {
-  const { result, ...httpResponse } = await portfolioController.retrieveMultipleProducts(productsIds, acceptLanguage);
-  // Get more response info...
-  // const { statusCode, headers } = httpResponse;
-} catch(error) {
-  if (error instanceof ApiError) {
-    const errors = error.result;
-    // const { statusCode, headers } = error;
-  }
-}
-```
-
-
-# Calculate Order Delivery Time
-
-This endpoint calculates total number of days to process and setup a campaign containing a list of Products, given a comma-separated list of their ids.
-
-```ts
-async calculateOrderDeliveryTime(
-  productsIds: string[],
-  requestOptions?: RequestOptions
-): Promise<ApiResponse<ProductsDeliveryTimeModel[]>>
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `productsIds` | `string[]` | Template, Required | - |
-| `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
-
-## Response Type
-
-[`ProductsDeliveryTimeModel[]`](../../doc/models/products-delivery-time-model.md)
-
-## Example Usage
-
-```ts
-const ProductsIds: string[] = ['products_ids7', 'products_ids8'];
-try {
-  const { result, ...httpResponse } = await portfolioController.calculateOrderDeliveryTime(productsIds);
-  // Get more response info...
-  // const { statusCode, headers } = httpResponse;
-} catch(error) {
-  if (error instanceof ApiError) {
-    const errors = error.result;
-    // const { statusCode, headers } = error;
-  }
-}
-```
-
-## Example Response *(as JSON)*
-
-```json
-[
-  {
-    "days_to_process": 1,
-    "days_to_setup": 1,
-    "total_days": 2
-  }
-]
-```
 
