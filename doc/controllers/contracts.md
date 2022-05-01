@@ -10,28 +10,28 @@ const contractsController = new ContractsController(client);
 
 ## Methods
 
-* [Listchannelswithsupportforcontracts](../../doc/controllers/contracts.md#listchannelswithsupportforcontracts)
-* [Retrievedetailsforchannelforthis Customer](../../doc/controllers/contracts.md#retrievedetailsforchannelforthis-customer)
-* [Listcontractsavailableforacustomer](../../doc/controllers/contracts.md#listcontractsavailableforacustomer)
-* [Createanewcustomercontract](../../doc/controllers/contracts.md#createanewcustomercontract)
-* [Deleteacontract](../../doc/controllers/contracts.md#deleteacontract)
-* [Retrieve Contractdetailsbythis Customer](../../doc/controllers/contracts.md#retrieve-contractdetailsbythis-customer)
-* [Retrievemultiplecontractsbythiscustomer](../../doc/controllers/contracts.md#retrievemultiplecontractsbythiscustomer)
-* [Listautocompletevaluesforpostingrequirement](../../doc/controllers/contracts.md#listautocompletevaluesforpostingrequirement)
+* [List Channels](../../doc/controllers/contracts.md#list-channels)
+* [Retrieve Channel](../../doc/controllers/contracts.md#retrieve-channel)
+* [List Contracts](../../doc/controllers/contracts.md#list-contracts)
+* [Create Contract](../../doc/controllers/contracts.md#create-contract)
+* [Delete Contract](../../doc/controllers/contracts.md#delete-contract)
+* [Retrieve Contract](../../doc/controllers/contracts.md#retrieve-contract)
+* [Retrieve Multiple Contracts](../../doc/controllers/contracts.md#retrieve-multiple-contracts)
+* [List Autocomplete Values](../../doc/controllers/contracts.md#list-autocomplete-values)
 
 
-# Listchannelswithsupportforcontracts
+# List Channels
 
 This endpoint exposes a list of channels with support for contracts. For all of the required details for creating a contract or a campaign for each channel, please call the "Retrieve details for channel with support for contracts".
 
 ```ts
-async listchannelswithsupportforcontracts(
+async listChannels(
   search?: string,
   limit?: number,
   offset?: number,
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<ListchannelswithsupportforcontractsResponse>>
+): Promise<ApiResponse<ListChannelsResponse>>
 ```
 
 ## Parameters
@@ -46,14 +46,14 @@ async listchannelswithsupportforcontracts(
 
 ## Response Type
 
-[`ListchannelswithsupportforcontractsResponse`](../../doc/models/listchannelswithsupportforcontracts-response.md)
+[`ListChannelsResponse`](../../doc/models/list-channels-response.md)
 
 ## Example Usage
 
 ```ts
 const acceptLanguage = 'en';
 try {
-  const { result, ...httpResponse } = await contractsController.listchannelswithsupportforcontracts(None, None, None, acceptLanguage);
+  const { result, ...httpResponse } = await contractsController.listChannels(None, None, None, acceptLanguage);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -65,13 +65,14 @@ try {
 ```
 
 
-# Retrievedetailsforchannelforthis Customer
+# Retrieve Channel
 
 This endpoint exposes the details of a channel with support for contracts,as well as all the required details for creating a contract or a campaign for each channel.
 
 ```ts
-async retrievedetailsforchannelforthisCustomer(
+async retrieveChannel(
   channelId: string,
+  xCustomerId: string,
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
 ): Promise<ApiResponse<Channel>>
@@ -82,6 +83,7 @@ async retrievedetailsforchannelforthisCustomer(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `channelId` | `string` | Template, Required | ID of the channel |
+| `xCustomerId` | `string` | Header, Required | - |
 | `acceptLanguage` | [`AcceptLanguageEnum \| undefined`](../../doc/models/accept-language-enum.md) | Header, Optional | The language the client prefers. |
 | `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
 
@@ -93,9 +95,10 @@ async retrievedetailsforchannelforthisCustomer(
 
 ```ts
 const channelId = 'channel_id4';
+const xCustomerId = 'X-Customer-Id2';
 const acceptLanguage = 'en';
 try {
-  const { result, ...httpResponse } = await contractsController.retrievedetailsforchannelforthisCustomer(channelId, acceptLanguage);
+  const { result, ...httpResponse } = await contractsController.retrieveChannel(channelId, xCustomerId, acceptLanguage);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -4229,17 +4232,17 @@ try {
 ```
 
 
-# Listcontractsavailableforacustomer
+# List Contracts
 
 This endpoint exposes a list of contract available to a particular customer.
 
 ```ts
-async listcontractsavailableforacustomer(
+async listContracts(
   xCustomerId: string,
   limit?: number,
   offset?: number,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Listcontractsavailableforacustomerresponse>>
+): Promise<ApiResponse<ListContractsResponse>>
 ```
 
 ## Parameters
@@ -4253,14 +4256,14 @@ async listcontractsavailableforacustomer(
 
 ## Response Type
 
-[`Listcontractsavailableforacustomerresponse`](../../doc/models/listcontractsavailableforacustomerresponse.md)
+[`ListContractsResponse`](../../doc/models/list-contracts-response.md)
 
 ## Example Usage
 
 ```ts
 const xCustomerId = 'X-Customer-Id2';
 try {
-  const { result, ...httpResponse } = await contractsController.listcontractsavailableforacustomer(xCustomerId);
+  const { result, ...httpResponse } = await contractsController.listContracts(xCustomerId);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -4316,18 +4319,18 @@ try {
 ```
 
 
-# Createanewcustomercontract
+# Create Contract
 
 This endpoint creates a new customer contract. It requires a reference to a channel, a credential payload, and the facets set for the contracted product.
 
 HAPI doesn't support contract editing, because job boards require the same credentials to be able to delete already posted jobs via that contract at a later moment. Otherwise, deleting jobs would not be possible. To edit contract credentials, the credentials need to be deleted first, and then recreated. When deleted, all corresponding jobs can't be deleted anymore
 
 ```ts
-async createanewcustomercontract(
+async createContract(
   xCustomerId: string,
   body: PostContract,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Createanewcustomercontractresponse>>
+): Promise<ApiResponse<CreateContractResponse>>
 ```
 
 ## Parameters
@@ -4340,7 +4343,7 @@ async createanewcustomercontract(
 
 ## Response Type
 
-[`Createanewcustomercontractresponse`](../../doc/models/createanewcustomercontractresponse.md)
+[`CreateContractResponse`](../../doc/models/create-contract-response.md)
 
 ## Example Usage
 
@@ -4350,7 +4353,7 @@ const contentType = null;
 const body: PostContract = {};
 
 try {
-  const { result, ...httpResponse } = await contractsController.createanewcustomercontract(xCustomerId, body);
+  const { result, ...httpResponse } = await contractsController.createContract(xCustomerId, body);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -4392,14 +4395,14 @@ try {
 | 400 | - | `ApiError` |
 
 
-# Deleteacontract
+# Delete Contract
 
 This endpoint deletes a contract.
 
 HAPI doesn't support contract editing, because job boards require the same credentials to be able to delete already posted jobs via that contract at a later moment. Otherwise, deleting jobs would not be possible. To edit contract credentials, the credentials need to be deleted first, and then recreated. When deleted, all corresponding jobs can't be deleted anymore
 
 ```ts
-async deleteacontract(
+async deleteContract(
   contractId: string,
   xCustomerId: string,
   requestOptions?: RequestOptions
@@ -4424,7 +4427,7 @@ async deleteacontract(
 const contractId = 'contract_id8';
 const xCustomerId = 'X-Customer-Id2';
 try {
-  const { result, ...httpResponse } = await contractsController.deleteacontract(contractId, xCustomerId);
+  const { result, ...httpResponse } = await contractsController.deleteContract(contractId, xCustomerId);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -4436,12 +4439,12 @@ try {
 ```
 
 
-# Retrieve Contractdetailsbythis Customer
+# Retrieve Contract
 
 This endpoint retrieves the detail for a customer contract. It contains a reference to a channel, an (encrypted) credential payload, and the facets set for the My Contracts product.
 
 ```ts
-async retrieveContractdetailsbythisCustomer(
+async retrieveContract(
   contractId: string,
   xCustomerId: string,
   requestOptions?: RequestOptions
@@ -4466,7 +4469,7 @@ async retrieveContractdetailsbythisCustomer(
 const contractId = 'contract_id8';
 const xCustomerId = 'X-Customer-Id2';
 try {
-  const { result, ...httpResponse } = await contractsController.retrieveContractdetailsbythisCustomer(contractId, xCustomerId);
+  const { result, ...httpResponse } = await contractsController.retrieveContract(contractId, xCustomerId);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -4502,18 +4505,18 @@ try {
 ```
 
 
-# Retrievemultiplecontractsbythiscustomer
+# Retrieve Multiple Contracts
 
 This endpoint exposes a list of multiple contracts, if available to a specific customer.
 
 ```ts
-async retrievemultiplecontractsbythiscustomer(
+async retrieveMultipleContracts(
   contractsIds: string[],
   xCustomerId: string,
   limit?: number,
   offset?: number,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Multipledetailsofcustomercontractsresponse>>
+): Promise<ApiResponse<MultipleContractsResponse>>
 ```
 
 ## Parameters
@@ -4521,14 +4524,14 @@ async retrievemultiplecontractsbythiscustomer(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `contractsIds` | `string[]` | Template, Required | - |
-| `xCustomerId` | `string` | Header, Required | An identifier for the remote customer |
+| `xCustomerId` | `string` | Header, Required | - |
 | `limit` | `number \| undefined` | Query, Optional | Amount of contracts returned |
 | `offset` | `number \| undefined` | Query, Optional | Starting point |
 | `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
 
 ## Response Type
 
-[`Multipledetailsofcustomercontractsresponse`](../../doc/models/multipledetailsofcustomercontractsresponse.md)
+[`MultipleContractsResponse`](../../doc/models/multiple-contracts-response.md)
 
 ## Example Usage
 
@@ -4536,7 +4539,7 @@ async retrievemultiplecontractsbythiscustomer(
 const ContractsIds: string[] = ['contracts_ids7', 'contracts_ids8'];
 const xCustomerId = 'X-Customer-Id2';
 try {
-  const { result, ...httpResponse } = await contractsController.retrievemultiplecontractsbythiscustomer(contractsIds, xCustomerId);
+  const { result, ...httpResponse } = await contractsController.retrieveMultipleContracts(contractsIds, xCustomerId);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -4586,18 +4589,17 @@ try {
 ```
 
 
-# Listautocompletevaluesforpostingrequirement
+# List Autocomplete Values
 
 This endpoint exposes autocomplete items given a `channel_id` and a posting requirement name.
 
 ```ts
-async listautocompletevaluesforpostingrequirement(
+async listAutocompleteValues(
   channelId: number,
   postingRequirementName: string,
-  xCustomerId: string,
   body: FacetAutocomplete,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Autocompletevaluesforpostingrequirementresponse[]>>
+): Promise<ApiResponse<AutocompleteValuesResponse[]>>
 ```
 
 ## Parameters
@@ -4606,25 +4608,23 @@ async listautocompletevaluesforpostingrequirement(
 |  --- | --- | --- | --- |
 | `channelId` | `number` | Template, Required | channel_id (number, required) |
 | `postingRequirementName` | `string` | Template, Required | - |
-| `xCustomerId` | `string` | Header, Required | An identifier for the remote customer |
 | `body` | [`FacetAutocomplete`](../../doc/models/facet-autocomplete.md) | Body, Required | - |
 | `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
 
 ## Response Type
 
-[`Autocompletevaluesforpostingrequirementresponse[]`](../../doc/models/autocompletevaluesforpostingrequirementresponse.md)
+[`AutocompleteValuesResponse[]`](../../doc/models/autocomplete-values-response.md)
 
 ## Example Usage
 
 ```ts
 const channelId = 105.24;
 const postingRequirementName = 'posting-requirement-name2';
-const xCustomerId = 'X-Customer-Id2';
 const contentType = null;
 const body: FacetAutocomplete = {};
 
 try {
-  const { result, ...httpResponse } = await contractsController.listautocompletevaluesforpostingrequirement(channelId, postingRequirementName, xCustomerId, body);
+  const { result, ...httpResponse } = await contractsController.listAutocompleteValues(channelId, postingRequirementName, body);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {

@@ -11,10 +11,7 @@ import {
 } from '../models/acceptLanguageEnum';
 import { EducationLevel, educationLevelSchema } from '../models/educationLevel';
 import { Industry, industrySchema } from '../models/industry';
-import {
-  JobFunctionTree,
-  jobFunctionTreeSchema,
-} from '../models/jobFunctionTree';
+import { JobFunction, jobFunctionSchema } from '../models/jobFunction';
 import { JobTitle, jobTitleSchema } from '../models/jobTitle';
 import { Location, locationSchema } from '../models/location';
 import { Seniority, senioritySchema } from '../models/seniority';
@@ -34,16 +31,16 @@ export class TaxonomyController extends BaseController {
    * @param acceptLanguage
    * @return Response from the API call
    */
-  async retrieveJobFunctionsCategoriesTaxonomy(
+  async retrieveJobFunctionsTree(
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<JobFunctionTree[]>> {
+  ): Promise<ApiResponse<JobFunction[]>> {
     const req = this.createRequest('GET', '/products/job-functions/');
     const mapped = req.prepareArgs({
       acceptLanguage: [acceptLanguage, optional(acceptLanguageEnumSchema)],
     });
     req.header('Accept-Language', mapped.acceptLanguage);
-    return req.callAsJson(array(jobFunctionTreeSchema), requestOptions);
+    return req.callAsJson(array(jobFunctionSchema), requestOptions);
   }
 
   /**
@@ -95,7 +92,7 @@ export class TaxonomyController extends BaseController {
    *                       Partial recognition of 20 other languages.
    * @return Response from the API call
    */
-  async searchforLocations(
+  async searchLocations(
     text: string,
     requestOptions?: RequestOptions
   ): Promise<ApiResponse<Location[]>> {
@@ -117,7 +114,7 @@ export class TaxonomyController extends BaseController {
    * @param acceptLanguage
    * @return Response from the API call
    */
-  async listallIndustries(
+  async listIndustries(
     limit?: number,
     offset?: number,
     acceptLanguage?: AcceptLanguageEnum,
@@ -140,7 +137,7 @@ export class TaxonomyController extends BaseController {
    *
    * @return Response from the API call
    */
-  async retrieveEducationLevelTaxonomy(
+  async retrieveEducationLevels(
     requestOptions?: RequestOptions
   ): Promise<ApiResponse<EducationLevel[]>> {
     const req = this.createRequest('GET', '/taxonomy/education-levels');
@@ -152,7 +149,7 @@ export class TaxonomyController extends BaseController {
    *
    * @return Response from the API call
    */
-  async retrieveSeniorityTaxonomy(
+  async retrieveSeniorities(
     requestOptions?: RequestOptions
   ): Promise<ApiResponse<Seniority[]>> {
     const req = this.createRequest('GET', '/taxonomy/seniority');

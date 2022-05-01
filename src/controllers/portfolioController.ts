@@ -62,7 +62,7 @@ export class PortfolioController extends BaseController {
    *                                                 in combination with 'recommended'.
    * @return Response from the API call
    */
-  async searchandrecommendProducts(
+  async searchProducts(
     limit?: number,
     offset?: number,
     includeLocationId?: string[],

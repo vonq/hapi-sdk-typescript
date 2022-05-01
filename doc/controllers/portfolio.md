@@ -10,13 +10,13 @@ const portfolioController = new PortfolioController(client);
 
 ## Methods
 
-* [Searchandrecommend Products](../../doc/controllers/portfolio.md#searchandrecommend-products)
+* [Search Products](../../doc/controllers/portfolio.md#search-products)
 * [Retrieve Single Product](../../doc/controllers/portfolio.md#retrieve-single-product)
 * [Retrieve Multiple Products](../../doc/controllers/portfolio.md#retrieve-multiple-products)
 * [Calculate Order Delivery Time](../../doc/controllers/portfolio.md#calculate-order-delivery-time)
 
 
-# Searchandrecommend Products
+# Search Products
 
 For a detailed tutorial on how to get started with portfolio search v2, check out our [Quickstart Tutorial](https://pkb.stoplight.io/docs/search/docs/Tutorial.md).
 For an implementation demo of the product search experience, check out our [Developer Portal](http://vonq.io/pkb).
@@ -28,7 +28,7 @@ Calling this endpoint will guarantee that the Products you see are configured fo
 Besides the default English, German and Dutch result translations can be requested by specifying an `Accept-Language: [de|nl]` header.
 
 ```ts
-async searchandrecommendProducts(
+async searchProducts(
   limit?: number,
   offset?: number,
   includeLocationId?: string[],
@@ -81,7 +81,7 @@ async searchandrecommendProducts(
 const acceptLanguage = 'en';
 const excludeRecommended = false;
 try {
-  const { result, ...httpResponse } = await portfolioController.searchandrecommendProducts(None, None, None, None, None, None, None, None, None, None, None, None, None, None, acceptLanguage, excludeRecommended);
+  const { result, ...httpResponse } = await portfolioController.searchProducts(None, None, None, None, None, None, None, None, None, None, None, None, None, None, acceptLanguage, excludeRecommended);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {

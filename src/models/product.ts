@@ -8,12 +8,18 @@ import {
   array,
   boolean,
   lazy,
+  nullable,
   object,
-  optional,
   Schema,
   string,
+  unknown,
 } from '../schema';
+import {
+  AudienceGroupEnum,
+  audienceGroupEnumSchema,
+} from './audienceGroupEnum';
 import { Channel, channelSchema } from './channel';
+import { ChannelTypeEnum, channelTypeEnumSchema } from './channelTypeEnum';
 import { Industry, industrySchema } from './industry';
 import { JobFunction, jobFunctionSchema } from './jobFunction';
 import { Location, locationSchema } from './location';
@@ -22,59 +28,57 @@ import { TimeToProcess, timeToProcessSchema } from './timeToProcess';
 import { TimeToSetup, timeToSetupSchema } from './timeToSetup';
 
 export interface Product {
-  title?: string;
-  locations?: Location[];
-  jobFunctions?: JobFunction[];
-  industries?: Industry[];
-  description?: string;
-  homepage?: string;
-  logoUrl?: string;
-  logoSquareUrl?: string;
-  logoRectangleUrl?: string;
-  duration?: string;
-  timeToProcess?: TimeToProcess;
-  timeToSetup?: TimeToSetup;
-  productId?: string;
+  title: string;
+  locations: Location[];
+  jobFunctions: JobFunction[];
+  industries: Industry[];
+  description: string | null;
+  homepage: string | null;
+  logoUrl: string | null;
+  logoSquareUrl: string | null;
+  logoRectangleUrl: string | null;
+  duration?: unknown | null;
+  timeToProcess: TimeToProcess;
+  timeToSetup: TimeToSetup;
+  productId: string;
   /** the price to be displayed to customers */
-  vonqPrice?: Price[];
-  ratecardPrice?: Price[];
-  type?: string;
-  crossPostings?: string[];
-  channel?: Channel;
+  vonqPrice: Price[];
+  ratecardPrice: Price[];
+  /** The type of a channel */
+  type: ChannelTypeEnum;
+  crossPostings: string[];
+  channel: Channel;
   /** The product's audience group (niche/generic) */
-  audienceGroup?: string;
+  audienceGroup: AudienceGroupEnum;
   /** is My Contract enabled for the channel */
-  mcEnabled?: boolean;
+  mcEnabled: boolean;
   /** is the product available only for My Contract order */
-  mcOnly?: boolean;
+  mcOnly: boolean;
   /** is the product available for order. a campaign cannot be ordered with a product having `allow_orders` set to `false`. */
-  allowOrders?: boolean;
+  allowOrders: boolean;
 }
 
 export const productSchema: Schema<Product> = object({
-  title: ['title', optional(string())],
-  locations: ['locations', optional(array(lazy(() => locationSchema)))],
-  jobFunctions: [
-    'job_functions',
-    optional(array(lazy(() => jobFunctionSchema))),
-  ],
-  industries: ['industries', optional(array(lazy(() => industrySchema)))],
-  description: ['description', optional(string())],
-  homepage: ['homepage', optional(string())],
-  logoUrl: ['logo_url', optional(string())],
-  logoSquareUrl: ['logo_square_url', optional(string())],
-  logoRectangleUrl: ['logo_rectangle_url', optional(string())],
-  duration: ['duration', optional(string())],
-  timeToProcess: ['time_to_process', optional(lazy(() => timeToProcessSchema))],
-  timeToSetup: ['time_to_setup', optional(lazy(() => timeToSetupSchema))],
-  productId: ['product_id', optional(string())],
-  vonqPrice: ['vonq_price', optional(array(lazy(() => priceSchema)))],
-  ratecardPrice: ['ratecard_price', optional(array(lazy(() => priceSchema)))],
-  type: ['type', optional(string())],
-  crossPostings: ['cross_postings', optional(array(string()))],
-  channel: ['channel', optional(lazy(() => channelSchema))],
-  audienceGroup: ['audience_group', optional(string())],
-  mcEnabled: ['mc_enabled', optional(boolean())],
-  mcOnly: ['mc_only', optional(boolean())],
-  allowOrders: ['allow_orders', optional(boolean())],
+  title: ['title', string()],
+  locations: ['locations', array(lazy(() => locationSchema))],
+  jobFunctions: ['job_functions', array(lazy(() => jobFunctionSchema))],
+  industries: ['industries', array(lazy(() => industrySchema))],
+  description: ['description', nullable(string())],
+  homepage: ['homepage', nullable(string())],
+  logoUrl: ['logo_url', nullable(string())],
+  logoSquareUrl: ['logo_square_url', nullable(string())],
+  logoRectangleUrl: ['logo_rectangle_url', nullable(string())],
+  duration: ['duration', nullable(unknown())],
+  timeToProcess: ['time_to_process', lazy(() => timeToProcessSchema)],
+  timeToSetup: ['time_to_setup', lazy(() => timeToSetupSchema)],
+  productId: ['product_id', string()],
+  vonqPrice: ['vonq_price', array(lazy(() => priceSchema))],
+  ratecardPrice: ['ratecard_price', array(lazy(() => priceSchema))],
+  type: ['type', channelTypeEnumSchema],
+  crossPostings: ['cross_postings', array(string())],
+  channel: ['channel', lazy(() => channelSchema)],
+  audienceGroup: ['audience_group', audienceGroupEnumSchema],
+  mcEnabled: ['mc_enabled', boolean()],
+  mcOnly: ['mc_only', boolean()],
+  allowOrders: ['allow_orders', boolean()],
 });
