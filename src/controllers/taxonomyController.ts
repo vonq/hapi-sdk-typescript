@@ -9,12 +9,18 @@ import {
   AcceptLanguageEnum,
   acceptLanguageEnumSchema,
 } from '../models/acceptLanguageEnum';
-import { EducationLevel, educationLevelSchema } from '../models/educationLevel';
-import { Industry, industrySchema } from '../models/industry';
-import { JobFunction, jobFunctionSchema } from '../models/jobFunction';
-import { JobTitle, jobTitleSchema } from '../models/jobTitle';
-import { Location, locationSchema } from '../models/location';
-import { Seniority, senioritySchema } from '../models/seniority';
+import {
+  EducationLevelModel,
+  educationLevelModelSchema,
+} from '../models/educationLevelModel';
+import { IndustryModel, industryModelSchema } from '../models/industryModel';
+import {
+  JobFunctionModel,
+  jobFunctionModelSchema,
+} from '../models/jobFunctionModel';
+import { JobTitleModel, jobTitleModelSchema } from '../models/jobTitleModel';
+import { LocationModel, locationModelSchema } from '../models/locationModel';
+import { SeniorityModel, seniorityModelSchema } from '../models/seniorityModel';
 import { array, number, optional, string } from '../schema';
 import { BaseController } from './baseController';
 
@@ -34,13 +40,13 @@ export class TaxonomyController extends BaseController {
   async retrieveJobFunctionsTree(
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<JobFunction[]>> {
+  ): Promise<ApiResponse<JobFunctionModel[]>> {
     const req = this.createRequest('GET', '/products/job-functions/');
     const mapped = req.prepareArgs({
       acceptLanguage: [acceptLanguage, optional(acceptLanguageEnumSchema)],
     });
     req.header('Accept-Language', mapped.acceptLanguage);
-    return req.callAsJson(array(jobFunctionSchema), requestOptions);
+    return req.callAsJson(array(jobFunctionModelSchema), requestOptions);
   }
 
   /**
@@ -66,7 +72,7 @@ export class TaxonomyController extends BaseController {
     offset?: number,
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<JobTitle[]>> {
+  ): Promise<ApiResponse<JobTitleModel[]>> {
     const req = this.createRequest('GET', '/products/job-titles/');
     const mapped = req.prepareArgs({
       text: [text, string()],
@@ -78,7 +84,7 @@ export class TaxonomyController extends BaseController {
     req.query('text', mapped.text);
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
-    return req.callAsJson(array(jobTitleSchema), requestOptions);
+    return req.callAsJson(array(jobTitleModelSchema), requestOptions);
   }
 
   /**
@@ -95,11 +101,11 @@ export class TaxonomyController extends BaseController {
   async searchLocations(
     text: string,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Location[]>> {
+  ): Promise<ApiResponse<LocationModel[]>> {
     const req = this.createRequest('GET', '/products/location/search/');
     const mapped = req.prepareArgs({ text: [text, string()] });
     req.query('text', mapped.text);
-    return req.callAsJson(array(locationSchema), requestOptions);
+    return req.callAsJson(array(locationModelSchema), requestOptions);
   }
 
   /**
@@ -119,7 +125,7 @@ export class TaxonomyController extends BaseController {
     offset?: number,
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Industry[]>> {
+  ): Promise<ApiResponse<IndustryModel[]>> {
     const req = this.createRequest('GET', '/products/industries/');
     const mapped = req.prepareArgs({
       limit: [limit, optional(number())],
@@ -129,7 +135,7 @@ export class TaxonomyController extends BaseController {
     req.header('Accept-Language', mapped.acceptLanguage);
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
-    return req.callAsJson(array(industrySchema), requestOptions);
+    return req.callAsJson(array(industryModelSchema), requestOptions);
   }
 
   /**
@@ -139,9 +145,9 @@ export class TaxonomyController extends BaseController {
    */
   async retrieveEducationLevels(
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<EducationLevel[]>> {
+  ): Promise<ApiResponse<EducationLevelModel[]>> {
     const req = this.createRequest('GET', '/taxonomy/education-levels');
-    return req.callAsJson(array(educationLevelSchema), requestOptions);
+    return req.callAsJson(array(educationLevelModelSchema), requestOptions);
   }
 
   /**
@@ -151,8 +157,8 @@ export class TaxonomyController extends BaseController {
    */
   async retrieveSeniorities(
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Seniority[]>> {
+  ): Promise<ApiResponse<SeniorityModel[]>> {
     const req = this.createRequest('GET', '/taxonomy/seniority');
-    return req.callAsJson(array(senioritySchema), requestOptions);
+    return req.callAsJson(array(seniorityModelSchema), requestOptions);
   }
 }

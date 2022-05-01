@@ -29,7 +29,7 @@ Besides the default English, German and Dutch result translations can be request
 async retrieveJobFunctionsTree(
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<JobFunction[]>>
+): Promise<ApiResponse<JobFunctionModel[]>>
 ```
 
 ## Parameters
@@ -41,7 +41,7 @@ async retrieveJobFunctionsTree(
 
 ## Response Type
 
-[`JobFunction[]`](../../doc/models/job-function.md)
+[`JobFunctionModel[]`](../../doc/models/job-function-model.md)
 
 ## Example Usage
 
@@ -93,7 +93,7 @@ async searchJobTitles(
   offset?: number,
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<JobTitle[]>>
+): Promise<ApiResponse<JobTitleModel[]>>
 ```
 
 ## Parameters
@@ -108,7 +108,7 @@ async searchJobTitles(
 
 ## Response Type
 
-[`JobTitle[]`](../../doc/models/job-title.md)
+[`JobTitleModel[]`](../../doc/models/job-title-model.md)
 
 ## Example Usage
 
@@ -139,7 +139,7 @@ Supports text input in English, Dutch and German.
 async searchLocations(
   text: string,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Location[]>>
+): Promise<ApiResponse<LocationModel[]>>
 ```
 
 ## Parameters
@@ -151,7 +151,7 @@ async searchLocations(
 
 ## Response Type
 
-[`Location[]`](../../doc/models/location.md)
+[`LocationModel[]`](../../doc/models/location-model.md)
 
 ## Example Usage
 
@@ -182,7 +182,7 @@ async listIndustries(
   offset?: number,
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Industry[]>>
+): Promise<ApiResponse<IndustryModel[]>>
 ```
 
 ## Parameters
@@ -196,7 +196,7 @@ async listIndustries(
 
 ## Response Type
 
-[`Industry[]`](../../doc/models/industry.md)
+[`IndustryModel[]`](../../doc/models/industry-model.md)
 
 ## Example Usage
 
@@ -222,7 +222,7 @@ Retrieve all Education Level possible values.
 ```ts
 async retrieveEducationLevels(
   requestOptions?: RequestOptions
-): Promise<ApiResponse<EducationLevel[]>>
+): Promise<ApiResponse<EducationLevelModel[]>>
 ```
 
 ## Parameters
@@ -233,7 +233,7 @@ async retrieveEducationLevels(
 
 ## Response Type
 
-[`EducationLevel[]`](../../doc/models/education-level.md)
+[`EducationLevelModel[]`](../../doc/models/education-level-model.md)
 
 ## Example Usage
 
@@ -274,7 +274,7 @@ Retrieve all Seniority possible values.
 ```ts
 async retrieveSeniorities(
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Seniority[]>>
+): Promise<ApiResponse<SeniorityModel[]>>
 ```
 
 ## Parameters
@@ -285,7 +285,7 @@ async retrieveSeniorities(
 
 ## Response Type
 
-[`Seniority[]`](../../doc/models/seniority.md)
+[`SeniorityModel[]`](../../doc/models/seniority-model.md)
 
 ## Example Usage
 

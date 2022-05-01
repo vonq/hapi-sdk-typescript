@@ -10,11 +10,11 @@ import {
   AcceptLanguageEnum,
   acceptLanguageEnumSchema,
 } from '../models/acceptLanguageEnum';
-import { Product, productSchema } from '../models/product';
+import { ProductModel, productModelSchema } from '../models/productModel';
 import {
-  ProductsDeliveryTime,
-  productsDeliveryTimeSchema,
-} from '../models/productsDeliveryTime';
+  ProductsDeliveryTimeModel,
+  productsDeliveryTimeModelSchema,
+} from '../models/productsDeliveryTimeModel';
 import { array, boolean, number, optional, string } from '../schema';
 import { BaseController } from './baseController';
 
@@ -80,7 +80,7 @@ export class PortfolioController extends BaseController {
     acceptLanguage?: AcceptLanguageEnum,
     excludeRecommended?: boolean,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Product[]>> {
+  ): Promise<ApiResponse<ProductModel[]>> {
     const req = this.createRequest('GET', '/products/search/');
     const mapped = req.prepareArgs({
       limit: [limit, optional(number())],
@@ -117,7 +117,7 @@ export class PortfolioController extends BaseController {
     req.query('mcEnabled', mapped.mcEnabled);
     req.query('excludeRecommended', mapped.excludeRecommended);
     req.throwOn(400, ApiError, '');
-    return req.callAsJson(array(productSchema), requestOptions);
+    return req.callAsJson(array(productModelSchema), requestOptions);
   }
 
   /**
@@ -134,7 +134,7 @@ export class PortfolioController extends BaseController {
     productId: string,
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Product>> {
+  ): Promise<ApiResponse<ProductModel>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       productId: [productId, string()],
@@ -142,7 +142,7 @@ export class PortfolioController extends BaseController {
     });
     req.header('Accept-Language', mapped.acceptLanguage);
     req.appendTemplatePath`/products/single/${mapped.productId}/`;
-    return req.callAsJson(productSchema, requestOptions);
+    return req.callAsJson(productModelSchema, requestOptions);
   }
 
   /**
@@ -159,7 +159,7 @@ export class PortfolioController extends BaseController {
     productsIds: string[],
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Product[]>> {
+  ): Promise<ApiResponse<ProductModel[]>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       productsIds: [productsIds, array(string())],
@@ -167,7 +167,7 @@ export class PortfolioController extends BaseController {
     });
     req.header('Accept-Language', mapped.acceptLanguage);
     req.appendTemplatePath`/products/multiple/${mapped.productsIds}/`;
-    return req.callAsJson(array(productSchema), requestOptions);
+    return req.callAsJson(array(productModelSchema), requestOptions);
   }
 
   /**
@@ -180,12 +180,15 @@ export class PortfolioController extends BaseController {
   async calculateOrderDeliveryTime(
     productsIds: string[],
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<ProductsDeliveryTime[]>> {
+  ): Promise<ApiResponse<ProductsDeliveryTimeModel[]>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       productsIds: [productsIds, array(string())],
     });
     req.appendTemplatePath`/products/delivery-time/${mapped.productsIds}/`;
-    return req.callAsJson(array(productsDeliveryTimeSchema), requestOptions);
+    return req.callAsJson(
+      array(productsDeliveryTimeModelSchema),
+      requestOptions
+    );
   }
 }

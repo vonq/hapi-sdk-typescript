@@ -11,32 +11,35 @@ import {
   acceptLanguageEnumSchema,
 } from '../models/acceptLanguageEnum';
 import {
-  AutocompleteValuesResponse,
-  autocompleteValuesResponseSchema,
-} from '../models/autocompleteValuesResponse';
-import { Channel, channelSchema } from '../models/channel';
-import { Contract, contractSchema } from '../models/contract';
+  AutocompleteValuesResponseModel,
+  autocompleteValuesResponseModelSchema,
+} from '../models/autocompleteValuesResponseModel';
+import { ChannelModel, channelModelSchema } from '../models/channelModel';
+import { ContractModel, contractModelSchema } from '../models/contractModel';
 import {
-  CreateContractResponse,
-  createContractResponseSchema,
-} from '../models/createContractResponse';
+  CreateContractResponseModel,
+  createContractResponseModelSchema,
+} from '../models/createContractResponseModel';
 import {
-  FacetAutocomplete,
-  facetAutocompleteSchema,
-} from '../models/facetAutocomplete';
+  FacetAutocompleteModel,
+  facetAutocompleteModelSchema,
+} from '../models/facetAutocompleteModel';
 import {
-  ListChannelsResponse,
-  listChannelsResponseSchema,
-} from '../models/listChannelsResponse';
+  ListChannelsResponseModel,
+  listChannelsResponseModelSchema,
+} from '../models/listChannelsResponseModel';
 import {
-  ListContractsResponse,
-  listContractsResponseSchema,
-} from '../models/listContractsResponse';
+  ListContractsResponseModel,
+  listContractsResponseModelSchema,
+} from '../models/listContractsResponseModel';
 import {
-  MultipleContractsResponse,
-  multipleContractsResponseSchema,
-} from '../models/multipleContractsResponse';
-import { PostContract, postContractSchema } from '../models/postContract';
+  MultipleContractsResponseModel,
+  multipleContractsResponseModelSchema,
+} from '../models/multipleContractsResponseModel';
+import {
+  PostContractModel,
+  postContractModelSchema,
+} from '../models/postContractModel';
 import { array, number, optional, string } from '../schema';
 import { BaseController } from './baseController';
 
@@ -58,7 +61,7 @@ export class ContractsController extends BaseController {
     offset?: number,
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<ListChannelsResponse>> {
+  ): Promise<ApiResponse<ListChannelsResponseModel>> {
     const req = this.createRequest('GET', '/products/channels/mocs/');
     const mapped = req.prepareArgs({
       search: [search, optional(string())],
@@ -70,7 +73,7 @@ export class ContractsController extends BaseController {
     req.query('search', mapped.search);
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
-    return req.callAsJson(listChannelsResponseSchema, requestOptions);
+    return req.callAsJson(listChannelsResponseModelSchema, requestOptions);
   }
 
   /**
@@ -87,7 +90,7 @@ export class ContractsController extends BaseController {
     xCustomerId: string,
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Channel>> {
+  ): Promise<ApiResponse<ChannelModel>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       channelId: [channelId, string()],
@@ -97,7 +100,7 @@ export class ContractsController extends BaseController {
     req.header('X-Customer-Id', mapped.xCustomerId);
     req.header('Accept-Language', mapped.acceptLanguage);
     req.appendTemplatePath`/products/channels/mocs/${mapped.channelId}`;
-    return req.callAsJson(channelSchema, requestOptions);
+    return req.callAsJson(channelModelSchema, requestOptions);
   }
 
   /**
@@ -113,7 +116,7 @@ export class ContractsController extends BaseController {
     limit?: number,
     offset?: number,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<ListContractsResponse>> {
+  ): Promise<ApiResponse<ListContractsResponseModel>> {
     const req = this.createRequest('GET', '/contracts/');
     const mapped = req.prepareArgs({
       xCustomerId: [xCustomerId, string()],
@@ -123,7 +126,7 @@ export class ContractsController extends BaseController {
     req.header('X-Customer-Id', mapped.xCustomerId);
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
-    return req.callAsJson(listContractsResponseSchema, requestOptions);
+    return req.callAsJson(listContractsResponseModelSchema, requestOptions);
   }
 
   /**
@@ -141,19 +144,19 @@ export class ContractsController extends BaseController {
    */
   async createContract(
     xCustomerId: string,
-    body: PostContract,
+    body: PostContractModel,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<CreateContractResponse>> {
+  ): Promise<ApiResponse<CreateContractResponseModel>> {
     const req = this.createRequest('POST', '/contracts/');
     const mapped = req.prepareArgs({
       xCustomerId: [xCustomerId, string()],
-      body: [body, postContractSchema],
+      body: [body, postContractModelSchema],
     });
     req.header('X-Customer-Id', mapped.xCustomerId);
     req.header('Content-Type', 'application/json');
     req.json(mapped.body);
     req.throwOn(400, ApiError, '');
-    return req.callAsJson(createContractResponseSchema, requestOptions);
+    return req.callAsJson(createContractResponseModelSchema, requestOptions);
   }
 
   /**
@@ -195,7 +198,7 @@ export class ContractsController extends BaseController {
     contractId: string,
     xCustomerId: string,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<Contract>> {
+  ): Promise<ApiResponse<ContractModel>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       contractId: [contractId, string()],
@@ -203,7 +206,7 @@ export class ContractsController extends BaseController {
     });
     req.header('X-Customer-Id', mapped.xCustomerId);
     req.appendTemplatePath`/contracts/single/${mapped.contractId}/`;
-    return req.callAsJson(contractSchema, requestOptions);
+    return req.callAsJson(contractModelSchema, requestOptions);
   }
 
   /**
@@ -221,7 +224,7 @@ export class ContractsController extends BaseController {
     limit?: number,
     offset?: number,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<MultipleContractsResponse>> {
+  ): Promise<ApiResponse<MultipleContractsResponseModel>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       contractsIds: [contractsIds, array(string())],
@@ -233,7 +236,7 @@ export class ContractsController extends BaseController {
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
     req.appendTemplatePath`/contracts/multiple/${mapped.contractsIds}/`;
-    return req.callAsJson(multipleContractsResponseSchema, requestOptions);
+    return req.callAsJson(multipleContractsResponseModelSchema, requestOptions);
   }
 
   /**
@@ -247,21 +250,21 @@ export class ContractsController extends BaseController {
   async listAutocompleteValues(
     channelId: number,
     postingRequirementName: string,
-    body: FacetAutocomplete,
+    body: FacetAutocompleteModel,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<AutocompleteValuesResponse[]>> {
+  ): Promise<ApiResponse<AutocompleteValuesResponseModel[]>> {
     const req = this.createRequest('POST');
     const mapped = req.prepareArgs({
       channelId: [channelId, number()],
       postingRequirementName: [postingRequirementName, string()],
-      body: [body, facetAutocompleteSchema],
+      body: [body, facetAutocompleteModelSchema],
     });
     req.header('Content-Type', 'application/json');
     req.json(mapped.body);
     req.appendTemplatePath`/contracts/posting-requirements/${mapped.channelId}/${mapped.postingRequirementName}/`;
     req.throwOn(400, ApiError, '');
     return req.callAsJson(
-      array(autocompleteValuesResponseSchema),
+      array(autocompleteValuesResponseModelSchema),
       requestOptions
     );
   }

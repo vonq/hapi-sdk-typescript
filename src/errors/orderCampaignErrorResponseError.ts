@@ -5,20 +5,21 @@
  */
 
 import { ApiError } from '../core';
-import { OrderedProductsSpec } from '../models/orderedProductsSpec';
-import { PostingDetailsErrors } from '../models/postingDetailsErrors';
-import { RecruiterInfoErrors } from '../models/recruiterInfoErrors';
+import { OrderedProductsSpecModel } from '../models/orderedProductsSpecModel';
+import { PostingDetailsErrorsModel } from '../models/postingDetailsErrorsModel';
+import { RecruiterInfoErrorsModel } from '../models/recruiterInfoErrorsModel';
 
 /**
  * Creates an instance of OrderCampaignErrorResponse
  */
 interface OrderCampaignErrorResponse {
   companyId: string[];
-  postingDetails: PostingDetailsErrors;
+  postingDetails: PostingDetailsErrorsModel;
   targetGroup: string[];
-  recruiterInfo: RecruiterInfoErrors;
+  recruiterInfo: RecruiterInfoErrorsModel;
   orderedProducts: string[];
-  orderedProductsSpecs: OrderedProductsSpec[];
+  orderedProductsSpecs: OrderedProductsSpecModel[];
+  [key: string]: unknown;
 }
 
 export class OrderCampaignErrorResponseError extends ApiError<OrderCampaignErrorResponse> {}
