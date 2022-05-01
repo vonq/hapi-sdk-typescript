@@ -38,20 +38,20 @@ You should use the following endpoints for the target group information:
 
 ```ts
 async orderCampaign(
-  body: CampaignOrder,
+  body: CampaignOrderModel,
   companyId?: string,
   limit?: string,
   offset?: string,
   xCustomerId?: string,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<OrderCampaignSuccessResponse>>
+): Promise<ApiResponse<OrderCampaignSuccessResponseModel>>
 ```
 
 ## Parameters
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`CampaignOrder`](../../doc/models/campaign-order.md) | Body, Required | - |
+| `body` | [`CampaignOrderModel`](../../doc/models/campaign-order-model.md) | Body, Required | - |
 | `companyId` | `string \| undefined` | Query, Optional | - |
 | `limit` | `string \| undefined` | Query, Optional | - |
 | `offset` | `string \| undefined` | Query, Optional | - |
@@ -60,7 +60,7 @@ async orderCampaign(
 
 ## Response Type
 
-[`OrderCampaignSuccessResponse`](../../doc/models/order-campaign-success-response.md)
+[`OrderCampaignSuccessResponseModel`](../../doc/models/order-campaign-success-response-model.md)
 
 ## Example Usage
 
@@ -108,7 +108,7 @@ const bodyPostingDetails: PostingDetails = {
   applicationUrl: 'http://amadeus-hospitality-it-careers.com/vacancy/software-development-manager-breda/apply',
 };
 
-const bodyTargetGroupEducationLevel: TargetGroupElement[] = [];
+const bodyTargetGroupEducationLevel: TargetGroupElementModel[] = [];
 
 const bodyTargetGroupeducationLevel0: TargetGroupElement = {
   description: 'Element name',
@@ -124,7 +124,7 @@ const bodyTargetGroupeducationLevel1: TargetGroupElement = {
 
 bodyTargetGroupEducationLevel[1] = bodyTargetGroupeducationLevel1;
 
-const bodyTargetGroupSeniority: TargetGroupElement[] = [];
+const bodyTargetGroupSeniority: TargetGroupElementModel[] = [];
 
 const bodyTargetGroupseniority0: TargetGroupElement = {
   description: 'Element name',
@@ -147,7 +147,7 @@ const bodyTargetGroupseniority2: TargetGroupElement = {
 
 bodyTargetGroupSeniority[2] = bodyTargetGroupseniority2;
 
-const bodyTargetGroupIndustry: TargetGroupElement[] = [];
+const bodyTargetGroupIndustry: TargetGroupElementModel[] = [];
 
 const bodyTargetGroupindustry0: TargetGroupElement = {
   description: 'Element name',
@@ -170,7 +170,7 @@ const bodyTargetGroupindustry2: TargetGroupElement = {
 
 bodyTargetGroupIndustry[2] = bodyTargetGroupindustry2;
 
-const bodyTargetGroupJobCategory: TargetGroupElement[] = [];
+const bodyTargetGroupJobCategory: TargetGroupElementModel[] = [];
 
 const bodyTargetGroupjobCategory0: TargetGroupElement = {
   description: 'Element name',
@@ -240,7 +240,7 @@ async listCampaigns(
   limit?: number,
   offset?: number,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<ResultSet1>>
+): Promise<ApiResponse<ResultSet1Model>>
 ```
 
 ## Parameters
@@ -254,7 +254,7 @@ async listCampaigns(
 
 ## Response Type
 
-[`ResultSet1`](../../doc/models/result-set-1.md)
+[`ResultSet1Model`](../../doc/models/result-set-1-model.md)
 
 ## Example Usage
 
@@ -401,7 +401,7 @@ retrieved.
 async retrieveCampaign(
   campaignId: string,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<ListCampaignResponse>>
+): Promise<ApiResponse<ListCampaignResponseModel>>
 ```
 
 ## Parameters
@@ -413,7 +413,7 @@ async retrieveCampaign(
 
 ## Response Type
 
-[`ListCampaignResponse`](../../doc/models/list-campaign-response.md)
+[`ListCampaignResponseModel`](../../doc/models/list-campaign-response-model.md)
 
 ## Example Usage
 
@@ -556,7 +556,7 @@ optimized for that.
 async checkCampaignStatus(
   campaignId: string,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<CheckCampaignStatusresponse>>
+): Promise<ApiResponse<CheckCampaignStatusresponseModel>>
 ```
 
 ## Parameters
@@ -568,7 +568,7 @@ async checkCampaignStatus(
 
 ## Response Type
 
-[`CheckCampaignStatusresponse`](../../doc/models/check-campaign-statusresponse.md)
+[`CheckCampaignStatusresponseModel`](../../doc/models/check-campaign-statusresponse-model.md)
 
 ## Example Usage
 
@@ -613,9 +613,9 @@ take some time and it only has an effect if the campaign's status is "online".
 ```ts
 async takeCampaignOffline(
   campaignId: string,
-  body: TakeCampaignOfflineRequest,
+  body: TakeCampaignOfflineRequestModel,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<TakeCampaignOfflineResponse>>
+): Promise<ApiResponse<TakeCampaignOfflineResponseModel>>
 ```
 
 ## Parameters
@@ -623,12 +623,12 @@ async takeCampaignOffline(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `campaignId` | `string` | Template, Required | Id of the Campaign you want to take offline |
-| `body` | [`TakeCampaignOfflineRequest`](../../doc/models/take-campaign-offline-request.md) | Body, Required | - |
+| `body` | [`TakeCampaignOfflineRequestModel`](../../doc/models/take-campaign-offline-request-model.md) | Body, Required | - |
 | `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
 
 ## Response Type
 
-[`TakeCampaignOfflineResponse`](../../doc/models/take-campaign-offline-response.md)
+[`TakeCampaignOfflineResponseModel`](../../doc/models/take-campaign-offline-response-model.md)
 
 ## Example Usage
 

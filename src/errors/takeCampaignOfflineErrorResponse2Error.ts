@@ -12,6 +12,7 @@ import { ApiError } from '../core';
 interface TakeCampaignOfflineErrorResponse2 {
   campaignId: string[];
   status: string[];
+  [key: string]: unknown;
 }
 
 export class TakeCampaignOfflineErrorResponse2Error extends ApiError<TakeCampaignOfflineErrorResponse2> {}

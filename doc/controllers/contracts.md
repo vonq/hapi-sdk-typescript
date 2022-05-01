@@ -31,7 +31,7 @@ async listChannels(
   offset?: number,
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<ListChannelsResponse>>
+): Promise<ApiResponse<ListChannelsResponseModel>>
 ```
 
 ## Parameters
@@ -46,7 +46,7 @@ async listChannels(
 
 ## Response Type
 
-[`ListChannelsResponse`](../../doc/models/list-channels-response.md)
+[`ListChannelsResponseModel`](../../doc/models/list-channels-response-model.md)
 
 ## Example Usage
 
@@ -75,7 +75,7 @@ async retrieveChannel(
   xCustomerId: string,
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Channel>>
+): Promise<ApiResponse<ChannelModel>>
 ```
 
 ## Parameters
@@ -89,7 +89,7 @@ async retrieveChannel(
 
 ## Response Type
 
-[`Channel`](../../doc/models/channel.md)
+[`ChannelModel`](../../doc/models/channel-model.md)
 
 ## Example Usage
 
@@ -4242,7 +4242,7 @@ async listContracts(
   limit?: number,
   offset?: number,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<ListContractsResponse>>
+): Promise<ApiResponse<ListContractsResponseModel>>
 ```
 
 ## Parameters
@@ -4256,7 +4256,7 @@ async listContracts(
 
 ## Response Type
 
-[`ListContractsResponse`](../../doc/models/list-contracts-response.md)
+[`ListContractsResponseModel`](../../doc/models/list-contracts-response-model.md)
 
 ## Example Usage
 
@@ -4328,9 +4328,9 @@ HAPI doesn't support contract editing, because job boards require the same crede
 ```ts
 async createContract(
   xCustomerId: string,
-  body: PostContract,
+  body: PostContractModel,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<CreateContractResponse>>
+): Promise<ApiResponse<CreateContractResponseModel>>
 ```
 
 ## Parameters
@@ -4338,12 +4338,12 @@ async createContract(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `xCustomerId` | `string` | Header, Required | An identifier for the remote customer |
-| `body` | [`PostContract`](../../doc/models/post-contract.md) | Body, Required | - |
+| `body` | [`PostContractModel`](../../doc/models/post-contract-model.md) | Body, Required | - |
 | `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
 
 ## Response Type
 
-[`CreateContractResponse`](../../doc/models/create-contract-response.md)
+[`CreateContractResponseModel`](../../doc/models/create-contract-response-model.md)
 
 ## Example Usage
 
@@ -4448,7 +4448,7 @@ async retrieveContract(
   contractId: string,
   xCustomerId: string,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Contract>>
+): Promise<ApiResponse<ContractModel>>
 ```
 
 ## Parameters
@@ -4461,7 +4461,7 @@ async retrieveContract(
 
 ## Response Type
 
-[`Contract`](../../doc/models/contract.md)
+[`ContractModel`](../../doc/models/contract-model.md)
 
 ## Example Usage
 
@@ -4516,7 +4516,7 @@ async retrieveMultipleContracts(
   limit?: number,
   offset?: number,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<MultipleContractsResponse>>
+): Promise<ApiResponse<MultipleContractsResponseModel>>
 ```
 
 ## Parameters
@@ -4531,7 +4531,7 @@ async retrieveMultipleContracts(
 
 ## Response Type
 
-[`MultipleContractsResponse`](../../doc/models/multiple-contracts-response.md)
+[`MultipleContractsResponseModel`](../../doc/models/multiple-contracts-response-model.md)
 
 ## Example Usage
 
@@ -4597,9 +4597,9 @@ This endpoint exposes autocomplete items given a `channel_id` and a posting requ
 async listAutocompleteValues(
   channelId: number,
   postingRequirementName: string,
-  body: FacetAutocomplete,
+  body: FacetAutocompleteModel,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<AutocompleteValuesResponse[]>>
+): Promise<ApiResponse<AutocompleteValuesResponseModel[]>>
 ```
 
 ## Parameters
@@ -4608,12 +4608,12 @@ async listAutocompleteValues(
 |  --- | --- | --- | --- |
 | `channelId` | `number` | Template, Required | channel_id (number, required) |
 | `postingRequirementName` | `string` | Template, Required | - |
-| `body` | [`FacetAutocomplete`](../../doc/models/facet-autocomplete.md) | Body, Required | - |
+| `body` | [`FacetAutocompleteModel`](../../doc/models/facet-autocomplete-model.md) | Body, Required | - |
 | `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
 
 ## Response Type
 
-[`AutocompleteValuesResponse[]`](../../doc/models/autocomplete-values-response.md)
+[`AutocompleteValuesResponseModel[]`](../../doc/models/autocomplete-values-response-model.md)
 
 ## Example Usage
 

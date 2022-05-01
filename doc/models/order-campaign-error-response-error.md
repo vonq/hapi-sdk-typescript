@@ -10,11 +10,11 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `companyId` | `string[]` | Required | - |
-| `postingDetails` | [`PostingDetailsErrors`](../../doc/models/posting-details-errors.md) | Required | - |
+| `postingDetails` | [`PostingDetailsErrorsModel`](../../doc/models/posting-details-errors-model.md) | Required | - |
 | `targetGroup` | `string[]` | Required | - |
-| `recruiterInfo` | [`RecruiterInfoErrors`](../../doc/models/recruiter-info-errors.md) | Required | - |
+| `recruiterInfo` | [`RecruiterInfoErrorsModel`](../../doc/models/recruiter-info-errors-model.md) | Required | - |
 | `orderedProducts` | `string[]` | Required | - |
-| `orderedProductsSpecs` | [`OrderedProductsSpec[]`](../../doc/models/ordered-products-spec.md) | Required | - |
+| `orderedProductsSpecs` | [`OrderedProductsSpecModel[]`](../../doc/models/ordered-products-spec-model.md) | Required | - |
 
 ## Example (as JSON)
 

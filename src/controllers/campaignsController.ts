@@ -14,28 +14,34 @@ import {
 import {
   TakeCampaignOfflineErrorResponseError,
 } from '../errors/takeCampaignOfflineErrorResponseError';
-import { CampaignOrder, campaignOrderSchema } from '../models/campaignOrder';
 import {
-  CheckCampaignStatusresponse,
-  checkCampaignStatusresponseSchema,
-} from '../models/checkCampaignStatusresponse';
+  CampaignOrderModel,
+  campaignOrderModelSchema,
+} from '../models/campaignOrderModel';
 import {
-  ListCampaignResponse,
-  listCampaignResponseSchema,
-} from '../models/listCampaignResponse';
+  CheckCampaignStatusresponseModel,
+  checkCampaignStatusresponseModelSchema,
+} from '../models/checkCampaignStatusresponseModel';
 import {
-  OrderCampaignSuccessResponse,
-  orderCampaignSuccessResponseSchema,
-} from '../models/orderCampaignSuccessResponse';
-import { ResultSet1, resultSet1Schema } from '../models/resultSet1';
+  ListCampaignResponseModel,
+  listCampaignResponseModelSchema,
+} from '../models/listCampaignResponseModel';
 import {
-  TakeCampaignOfflineRequest,
-  takeCampaignOfflineRequestSchema,
-} from '../models/takeCampaignOfflineRequest';
+  OrderCampaignSuccessResponseModel,
+  orderCampaignSuccessResponseModelSchema,
+} from '../models/orderCampaignSuccessResponseModel';
 import {
-  TakeCampaignOfflineResponse,
-  takeCampaignOfflineResponseSchema,
-} from '../models/takeCampaignOfflineResponse';
+  ResultSet1Model,
+  resultSet1ModelSchema,
+} from '../models/resultSet1Model';
+import {
+  TakeCampaignOfflineRequestModel,
+  takeCampaignOfflineRequestModelSchema,
+} from '../models/takeCampaignOfflineRequestModel';
+import {
+  TakeCampaignOfflineResponseModel,
+  takeCampaignOfflineResponseModelSchema,
+} from '../models/takeCampaignOfflineResponseModel';
 import { number, optional, string } from '../schema';
 import { BaseController } from './baseController';
 
@@ -67,21 +73,21 @@ export class CampaignsController extends BaseController {
    * @param companyId
    * @param limit
    * @param offset
-   * @param xCustomerId   The ID of the end-user creating the order. Only required if you are
-   *                                              using HAPI Job Post and creating orders with contracts.
+   * @param xCustomerId   The ID of the end-user creating the order. Only required if you
+   *                                                   are using HAPI Job Post and creating orders with contracts.
    * @return Response from the API call
    */
   async orderCampaign(
-    body: CampaignOrder,
+    body: CampaignOrderModel,
     companyId?: string,
     limit?: string,
     offset?: string,
     xCustomerId?: string,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<OrderCampaignSuccessResponse>> {
+  ): Promise<ApiResponse<OrderCampaignSuccessResponseModel>> {
     const req = this.createRequest('POST', '/campaigns/order');
     const mapped = req.prepareArgs({
-      body: [body, campaignOrderSchema],
+      body: [body, campaignOrderModelSchema],
       companyId: [companyId, optional(string())],
       limit: [limit, optional(string())],
       offset: [offset, optional(string())],
@@ -94,7 +100,10 @@ export class CampaignsController extends BaseController {
     req.query('offset', mapped.offset);
     req.json(mapped.body);
     req.throwOn(400, OrderCampaignErrorResponseError, '');
-    return req.callAsJson(orderCampaignSuccessResponseSchema, requestOptions);
+    return req.callAsJson(
+      orderCampaignSuccessResponseModelSchema,
+      requestOptions
+    );
   }
 
   /**
@@ -112,7 +121,7 @@ export class CampaignsController extends BaseController {
     limit?: number,
     offset?: number,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<ResultSet1>> {
+  ): Promise<ApiResponse<ResultSet1Model>> {
     const req = this.createRequest('GET', '/campaings');
     const mapped = req.prepareArgs({
       companyId: [companyId, string()],
@@ -122,7 +131,7 @@ export class CampaignsController extends BaseController {
     req.query('companyId', mapped.companyId);
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
-    return req.callAsJson(resultSet1Schema, requestOptions);
+    return req.callAsJson(resultSet1ModelSchema, requestOptions);
   }
 
   /**
@@ -135,11 +144,11 @@ export class CampaignsController extends BaseController {
   async retrieveCampaign(
     campaignId: string,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<ListCampaignResponse>> {
+  ): Promise<ApiResponse<ListCampaignResponseModel>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({ campaignId: [campaignId, string()] });
     req.appendTemplatePath`/campaigns/${mapped.campaignId}`;
-    return req.callAsJson(listCampaignResponseSchema, requestOptions);
+    return req.callAsJson(listCampaignResponseModelSchema, requestOptions);
   }
 
   /**
@@ -154,11 +163,14 @@ export class CampaignsController extends BaseController {
   async checkCampaignStatus(
     campaignId: string,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<CheckCampaignStatusresponse>> {
+  ): Promise<ApiResponse<CheckCampaignStatusresponseModel>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({ campaignId: [campaignId, string()] });
     req.appendTemplatePath`/campaigns/${mapped.campaignId}/status`;
-    return req.callAsJson(checkCampaignStatusresponseSchema, requestOptions);
+    return req.callAsJson(
+      checkCampaignStatusresponseModelSchema,
+      requestOptions
+    );
   }
 
   /**
@@ -171,19 +183,22 @@ export class CampaignsController extends BaseController {
    */
   async takeCampaignOffline(
     campaignId: string,
-    body: TakeCampaignOfflineRequest,
+    body: TakeCampaignOfflineRequestModel,
     requestOptions?: RequestOptions
-  ): Promise<ApiResponse<TakeCampaignOfflineResponse>> {
+  ): Promise<ApiResponse<TakeCampaignOfflineResponseModel>> {
     const req = this.createRequest('PUT');
     const mapped = req.prepareArgs({
       campaignId: [campaignId, string()],
-      body: [body, takeCampaignOfflineRequestSchema],
+      body: [body, takeCampaignOfflineRequestModelSchema],
     });
     req.header('Content-Type', 'application/json');
     req.json(mapped.body);
     req.appendTemplatePath`/campaigns/${mapped.campaignId}/cancellation`;
     req.throwOn(400, TakeCampaignOfflineErrorResponse2Error, '');
     req.throwOn(404, TakeCampaignOfflineErrorResponseError, '');
-    return req.callAsJson(takeCampaignOfflineResponseSchema, requestOptions);
+    return req.callAsJson(
+      takeCampaignOfflineResponseModelSchema,
+      requestOptions
+    );
   }
 }

@@ -46,7 +46,7 @@ async searchProducts(
   acceptLanguage?: AcceptLanguageEnum,
   excludeRecommended?: boolean,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Product[]>>
+): Promise<ApiResponse<ProductModel[]>>
 ```
 
 ## Parameters
@@ -73,7 +73,7 @@ async searchProducts(
 
 ## Response Type
 
-[`Product[]`](../../doc/models/product.md)
+[`ProductModel[]`](../../doc/models/product-model.md)
 
 ## Example Usage
 
@@ -109,7 +109,7 @@ async retrieveSingleProduct(
   productId: string,
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Product>>
+): Promise<ApiResponse<ProductModel>>
 ```
 
 ## Parameters
@@ -122,7 +122,7 @@ async retrieveSingleProduct(
 
 ## Response Type
 
-[`Product`](../../doc/models/product.md)
+[`ProductModel`](../../doc/models/product-model.md)
 
 ## Example Usage
 
@@ -152,7 +152,7 @@ async retrieveMultipleProducts(
   productsIds: string[],
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
-): Promise<ApiResponse<Product[]>>
+): Promise<ApiResponse<ProductModel[]>>
 ```
 
 ## Parameters
@@ -165,7 +165,7 @@ async retrieveMultipleProducts(
 
 ## Response Type
 
-[`Product[]`](../../doc/models/product.md)
+[`ProductModel[]`](../../doc/models/product-model.md)
 
 ## Example Usage
 
@@ -193,7 +193,7 @@ This endpoint calculates total number of days to process and setup a campaign co
 async calculateOrderDeliveryTime(
   productsIds: string[],
   requestOptions?: RequestOptions
-): Promise<ApiResponse<ProductsDeliveryTime[]>>
+): Promise<ApiResponse<ProductsDeliveryTimeModel[]>>
 ```
 
 ## Parameters
@@ -205,7 +205,7 @@ async calculateOrderDeliveryTime(
 
 ## Response Type
 
-[`ProductsDeliveryTime[]`](../../doc/models/products-delivery-time.md)
+[`ProductsDeliveryTimeModel[]`](../../doc/models/products-delivery-time-model.md)
 
 ## Example Usage
 
