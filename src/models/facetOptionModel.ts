@@ -18,9 +18,13 @@ import {
 } from './facetOptionShowFacetsModel';
 
 export interface FacetOptionModel {
+  /** Whether the option should be the default choice when rendering the SELECT. */
   mDefault: string;
+  /** The value to be used when setting the value of the facet when this option is selected. */
   key: string;
+  /** The option's user-friendly label */
   label: string;
+  /** The order of the option in the list of options. lower value means higher rank. */
   sort: string;
   /** References to Facets that becomes required when this option is selected */
   show?: FacetOptionShowFacetsModel[];

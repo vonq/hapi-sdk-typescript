@@ -1,6 +1,8 @@
 
 # Contract Product Model
 
+The Product to be used in combination with the Contract when ordering a Campaign.
+
 ## Structure
 
 `ContractProductModel`
@@ -9,15 +11,15 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `productId` | `string \| undefined` | Optional | - |
-| `title` | `string \| undefined` | Optional | - |
+| `productId` | `string` | Required | - |
+| `title` | `string` | Required | - |
 
 ## Example (as JSON)
 
 ```json
 {
-  "product_id": null,
-  "title": null
+  "product_id": "product_id4",
+  "title": "title4"
 }
 ```
 

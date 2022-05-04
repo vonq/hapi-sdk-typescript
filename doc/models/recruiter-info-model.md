@@ -1,8 +1,7 @@
 
 # Recruiter Info Model
 
-Recruiter is the person using the ATS to create the Campaign and it's generally part of the Company whose Id
-we request first.
+Recruiter is the user creating the campaign and you may want to use this to provide filtering by recruiter for groups sharing an account.
 
 ## Structure
 

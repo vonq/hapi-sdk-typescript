@@ -20,7 +20,7 @@ import {
 } from './contractPurchasePriceModel';
 
 export interface PostContractModel {
-  channelId?: number;
+  channelId: number;
   /** An object with credentials data */
   credentials?: unknown;
   /** An object with product parameters */
@@ -35,8 +35,8 @@ export interface PostContractModel {
 
 export const postContractModelSchema: Schema<PostContractModel> = expandoObject(
   {
-    channelId: ['channel_id', optional(number())],
-    credentials: ['credentials', optional(unknown())],
+    channelId: ['channel_id', number()],
+    credentials: ['credentials', unknown()],
     facets: ['facets', optional(unknown())],
     followedInstructions: ['followed_instructions', optional(boolean())],
     expiryDate: ['expiry_date', optional(string())],

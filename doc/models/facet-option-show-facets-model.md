@@ -9,7 +9,7 @@
 
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `facet` | `string` | Required | the facet name |
+| `facet` | `string` | Required | The facet name that becomes required when this option is chosen. |
 
 ## Example (as JSON)
 

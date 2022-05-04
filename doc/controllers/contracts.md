@@ -51,7 +51,10 @@ async createContract(
 ```ts
 const xCustomerId = 'X-Customer-Id2';
 const contentType = null;
-const body: PostContract = {};
+const body: PostContract = {
+  channelId: 30.52,
+  credentials: '{"key1":"val1","key2":"val2"}',
+};
 
 try {
   const { result, ...httpResponse } = await contractsController.createContract(xCustomerId, body);
@@ -256,6 +259,25 @@ try {
 }
 ```
 
+## Example Response *(as JSON)*
+
+```json
+{
+  "count": 0,
+  "next": "string",
+  "previous": "string",
+  "results": [
+    {
+      "mc_enabled": true,
+      "id": 0,
+      "name": "string",
+      "url": "string",
+      "type": "string"
+    }
+  ]
+}
+```
+
 
 # List Contracts
 
@@ -311,14 +333,14 @@ try {
       "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
       "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
       "channel_id": 13,
-      "credentials": "",
+      "credentials": {},
       "class_name": "",
       "facets": {},
       "product": {
         "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
         "title": "product title"
       },
-      "posting_requirements": "",
+      "posting_requirements": [],
       "expiry_date": "2022-02-15T12:03:45.053Z",
       "credits": 0,
       "purchase_price": {
@@ -330,14 +352,16 @@ try {
       "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
       "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
       "channel_id": 13,
-      "credentials": "",
-      "class_name": "",
+      "credentials": {},
+      "class_name": "apecf_prod",
+      "expiry_date": null,
+      "credits": 5,
       "facets": {},
       "product": {
         "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
         "title": "product title"
       },
-      "posting_requirements": ""
+      "posting_requirements": []
     }
   ]
 }
@@ -351,7 +375,6 @@ This endpoint exposes the details of a channel with support for contracts,as wel
 ```ts
 async retrieveChannel(
   channelId: string,
-  xCustomerId: string,
   acceptLanguage?: AcceptLanguageEnum,
   requestOptions?: RequestOptions
 ): Promise<ApiResponse<ChannelModel>>
@@ -362,7 +385,6 @@ async retrieveChannel(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `channelId` | `string` | Template, Required | ID of the channel |
-| `xCustomerId` | `string` | Header, Required | - |
 | `acceptLanguage` | [`AcceptLanguageEnum \| undefined`](../../doc/models/accept-language-enum.md) | Header, Optional | The language the client prefers. |
 | `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
 
@@ -374,10 +396,9 @@ async retrieveChannel(
 
 ```ts
 const channelId = 'channel_id4';
-const xCustomerId = 'X-Customer-Id2';
 const acceptLanguage = 'en';
 try {
-  const { result, ...httpResponse } = await contractsController.retrieveChannel(channelId, xCustomerId, acceptLanguage);
+  const { result, ...httpResponse } = await contractsController.retrieveChannel(channelId, acceptLanguage);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -4559,14 +4580,14 @@ try {
   "contract_id": "06a8f6f0-5e0e-4614-869e-ab95a8530633",
   "customer_id": "c0cbefa5-6f04-4dbc-8208-5963bc433166",
   "channel_id": 0,
-  "credentials": "",
+  "credentials": {},
   "class_name": "",
   "facets": {},
   "product": {
     "product_id": "",
     "title": ""
   },
-  "posting_requirements": "",
+  "posting_requirements": [],
   "expiry_date": "2022-02-15T12:03:45.053Z",
   "credits": 0,
   "purchase_price": {
@@ -4584,7 +4605,6 @@ This endpoint exposes a list of multiple contracts, if available to a specific c
 ```ts
 async retrieveMultipleContracts(
   contractsIds: string[],
-  xCustomerId: string,
   limit?: number,
   offset?: number,
   requestOptions?: RequestOptions
@@ -4596,7 +4616,6 @@ async retrieveMultipleContracts(
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `contractsIds` | `string[]` | Template, Required | - |
-| `xCustomerId` | `string` | Header, Required | - |
 | `limit` | `number \| undefined` | Query, Optional | Amount of contracts returned |
 | `offset` | `number \| undefined` | Query, Optional | Starting point |
 | `requestOptions` | `RequestOptions \| undefined` | Optional | Pass additional request options. |
@@ -4609,9 +4628,8 @@ async retrieveMultipleContracts(
 
 ```ts
 const ContractsIds: string[] = ['contracts_ids7', 'contracts_ids8'];
-const xCustomerId = 'X-Customer-Id2';
 try {
-  const { result, ...httpResponse } = await contractsController.retrieveMultipleContracts(contractsIds, xCustomerId);
+  const { result, ...httpResponse } = await contractsController.retrieveMultipleContracts(contractsIds);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {
@@ -4634,27 +4652,31 @@ try {
       "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
       "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
       "channel_id": 13,
-      "credentials": "",
+      "credentials": {},
       "class_name": "",
       "facets": {},
       "product": {
         "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
         "title": "product title"
       },
-      "posting_requirements": ""
+      "expiry_date": null,
+      "credits": 12,
+      "posting_requirements": []
     },
     {
       "customer_id": "76e124d4-ae69-4753-bede-259d505258b7",
       "contract_id": "3a283b8f-1670-404b-b804-92f67e66b71c",
       "channel_id": 13,
-      "credentials": "",
+      "expiry_date": null,
+      "credits": 3,
+      "credentials": {},
       "class_name": "",
       "facets": {},
       "product": {
         "product_id": "2e8c3c17-179b-4db1-9e2b-d48369b5e409",
         "title": "product title"
       },
-      "posting_requirements": ""
+      "posting_requirements": []
     }
   ]
 }

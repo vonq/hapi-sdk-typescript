@@ -81,23 +81,19 @@ export class ContractsController extends BaseController {
    * required details for creating a contract or a campaign for each channel.
    *
    * @param channelId       ID of the channel
-   * @param xCustomerId
    * @param acceptLanguage  The language the client prefers.
    * @return Response from the API call
    */
   async retrieveChannel(
     channelId: string,
-    xCustomerId: string,
     acceptLanguage?: AcceptLanguageEnum,
     requestOptions?: RequestOptions
   ): Promise<ApiResponse<ChannelModel>> {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       channelId: [channelId, string()],
-      xCustomerId: [xCustomerId, string()],
       acceptLanguage: [acceptLanguage, optional(acceptLanguageEnumSchema)],
     });
-    req.header('X-Customer-Id', mapped.xCustomerId);
     req.header('Accept-Language', mapped.acceptLanguage);
     req.appendTemplatePath`/products/channels/mocs/${mapped.channelId}`;
     return req.callAsJson(channelModelSchema, requestOptions);
@@ -213,14 +209,12 @@ export class ContractsController extends BaseController {
    * This endpoint exposes a list of multiple contracts, if available to a specific customer.
    *
    * @param contractsIds
-   * @param xCustomerId
    * @param limit         Amount of contracts returned
    * @param offset        Starting point
    * @return Response from the API call
    */
   async retrieveMultipleContracts(
     contractsIds: string[],
-    xCustomerId: string,
     limit?: number,
     offset?: number,
     requestOptions?: RequestOptions
@@ -228,11 +222,9 @@ export class ContractsController extends BaseController {
     const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       contractsIds: [contractsIds, array(string())],
-      xCustomerId: [xCustomerId, string()],
       limit: [limit, optional(number())],
       offset: [offset, optional(number())],
     });
-    req.header('X-Customer-Id', mapped.xCustomerId);
     req.query('limit', mapped.limit);
     req.query('offset', mapped.offset);
     req.appendTemplatePath`/contracts/multiple/${mapped.contractsIds}/`;

@@ -177,7 +177,7 @@ async searchProducts(
   durationTo?: string,
   name?: string,
   currency?: string,
-  sortBy?: string,
+  sortBy?: SortByEnum,
   recommended?: boolean,
   mcEnabled?: boolean,
   acceptLanguage?: AcceptLanguageEnum,
@@ -201,7 +201,7 @@ async searchProducts(
 | `durationTo` | `string \| undefined` | Query, Optional | Match only products with a duration up to a certain number of days |
 | `name` | `string \| undefined` | Query, Optional | Search text for a product name |
 | `currency` | `string \| undefined` | Query, Optional | ISO-4217 code for a currency |
-| `sortBy` | `string \| undefined` | Query, Optional | Which products to show first. Defaults to 'relevant' |
+| `sortBy` | [`SortByEnum \| undefined`](../../doc/models/sort-by-enum.md) | Query, Optional | Which products to show first. Defaults to 'relevant'<br>**Default**: `SortByEnum.Relevant` |
 | `recommended` | `boolean \| undefined` | Query, Optional | Whether to display a list of recommended products for the search parameters. If true, returns a limited list of products for the types: Job board, social media, publication and community. |
 | `mcEnabled` | `boolean \| undefined` | Query, Optional | Can be used to filter for products that are linked to a channel enabled for My Contracts orders |
 | `acceptLanguage` | [`AcceptLanguageEnum \| undefined`](../../doc/models/accept-language-enum.md) | Header, Optional | - |
@@ -215,10 +215,11 @@ async searchProducts(
 ## Example Usage
 
 ```ts
+const sortBy = 'relevant';
 const acceptLanguage = 'en';
 const excludeRecommended = false;
 try {
-  const { result, ...httpResponse } = await portfolioController.searchProducts(None, None, None, None, None, None, None, None, None, None, None, None, None, None, acceptLanguage, excludeRecommended);
+  const { result, ...httpResponse } = await portfolioController.searchProducts(None, None, None, None, None, None, None, None, None, None, None, sortBy, None, None, acceptLanguage, excludeRecommended);
   // Get more response info...
   // const { statusCode, headers } = httpResponse;
 } catch(error) {

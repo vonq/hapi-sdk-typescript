@@ -4,7 +4,7 @@
  * This file was automatically generated for VONQ by APIMATIC v3.0 ( https://www.apimatic.io ).
  */
 
-import { customHeaderAuthenticationProvider } from './authentication';
+import { noneAuthenticationProvider } from './authentication';
 import {
   AuthParams,
   ClientInterface,
@@ -18,8 +18,6 @@ import {
   DEFAULT_RETRY_CONFIG,
 } from './defaultConfiguration';
 import { ApiError } from './core';
-import { setHeader } from './core';
-import { updateUserAgent } from './core';
 import {
   AuthenticatorInterface,
   createRequestBuilderFactory,
@@ -30,12 +28,13 @@ import {
 } from './core';
 import { XmlSerialization } from './http/xmlSerialization';
 
+const USER_AGENT = 'APIMATIC 3.0';
+
 export class Client implements ClientInterface {
   private _config: Readonly<Configuration>;
   private _timeout: number;
   private _retryConfig: RetryConfiguration;
   private _requestBuilderFactory: SdkRequestBuilderFactory;
-  private _userAgent: string;
 
   constructor(config?: Partial<Configuration>) {
     this._config = {
@@ -50,12 +49,9 @@ export class Client implements ClientInterface {
       typeof this._config.httpClientOptions?.timeout != 'undefined'
         ? this._config.httpClientOptions.timeout
         : this._config.timeout;
-    this._userAgent = updateUserAgent(
-      'hapi-sdk',
-    );
     this._requestBuilderFactory = createRequestHandlerFactory(
       server => getBaseUri(server, this._config),
-      customHeaderAuthenticationProvider(this._config),
+      noneAuthenticationProvider,
       new HttpClient({
         timeout: this._timeout,
         clientConfigOverrides: this._config.unstable_httpClientOptions,
@@ -64,8 +60,7 @@ export class Client implements ClientInterface {
       }),
       [
         withErrorHandlers,
-        withUserAgent(this._userAgent),
-        withAuthenticationByDefault,
+        withUserAgent,
       ],
       new XmlSerialization(),
       this._retryConfig
@@ -91,12 +86,12 @@ function createHttpClientAdapter(client: HttpClient): HttpClientInterface {
 }
 
 function getBaseUri(server: Server = 'default', config: Configuration): string {
-  if (config.environment === Environment.Production) {
+  if (config.environment === Environment.Sandbox) {
     if (server === 'default') {
       return 'https://marketplace-sandbox.api.vonq.com/';
     }
   }
-  if (config.environment === Environment.Environment2) {
+  if (config.environment === Environment.Production) {
     if (server === 'default') {
       return 'https://marketplace.api.vonq.com/';
     }
@@ -139,16 +134,7 @@ function withErrorHandlers(rb: SdkRequestBuilder) {
   rb.defaultToError(ApiError);
 }
 
-function withUserAgent(userAgent: string) {
-  return (rb: SdkRequestBuilder) => {
-    rb.interceptRequest(request => {
-      const headers = request.headers ?? {};
-      setHeader(headers, 'user-agent', userAgent);
-      return { ...request, headers };
-    });
-  };
+function withUserAgent(rb: SdkRequestBuilder) {
+  rb.header('user-agent', USER_AGENT);
 }
 
-function withAuthenticationByDefault(rb: SdkRequestBuilder) {
-  rb.authenticate(true);
-}
