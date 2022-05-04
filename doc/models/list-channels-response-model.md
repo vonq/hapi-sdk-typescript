@@ -10,8 +10,8 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `count` | `number` | Required | - |
-| `next` | `string` | Required | - |
-| `previous` | `string` | Required | - |
+| `next` | `string \| null` | Required | - |
+| `previous` | `string \| null` | Required | - |
 | `results` | [`ChannelLiteModel[]`](../../doc/models/channel-lite-model.md) | Required | - |
 
 ## Example (as JSON)
@@ -24,10 +24,10 @@
   "results": [
     {
       "mc_enabled": true,
-      "id": null,
-      "name": null,
-      "url": null,
-      "type": null
+      "id": 29,
+      "name": "name3",
+      "url": "url7",
+      "type": "type7"
     }
   ]
 }

@@ -69,7 +69,26 @@
   "ratecard_price": null,
   "type": "job board",
   "cross_postings": null,
-  "channel": null,
+  "channel": {
+    "name": "Linkedin",
+    "url": "www.linkedin.com",
+    "type": "job board",
+    "mc_enabled": false,
+    "contract_credentials": null,
+    "contract_facets": null,
+    "posting_requirements": {
+      "name": null,
+      "label": null,
+      "sort": null,
+      "required": null,
+      "type": "AUTOCOMPLETE",
+      "options": null,
+      "autocomplete": null
+    },
+    "manual_setup_required": null,
+    "setup_instructions": null,
+    "feed_url": null
+  },
   "audience_group": null,
   "mc_enabled": null,
   "mc_only": null,

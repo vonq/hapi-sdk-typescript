@@ -10,7 +10,7 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `rule` | [`RuleEnum`](../../doc/models/rule-enum.md) | Required | - |
-| `data` | `string` | Required | - |
+| `data` | `string` | Required | the value used for the rule |
 
 ## Example (as JSON)
 

@@ -15,6 +15,7 @@ import {
   ProductsDeliveryTimeModel,
   productsDeliveryTimeModelSchema,
 } from '../models/productsDeliveryTimeModel';
+import { SortByEnum, sortByEnumSchema } from '../models/sortByEnum';
 import { array, boolean, number, optional, string } from '../schema';
 import { BaseController } from './baseController';
 
@@ -74,7 +75,7 @@ export class PortfolioController extends BaseController {
     durationTo?: string,
     name?: string,
     currency?: string,
-    sortBy?: string,
+    sortBy?: SortByEnum,
     recommended?: boolean,
     mcEnabled?: boolean,
     acceptLanguage?: AcceptLanguageEnum,
@@ -94,7 +95,7 @@ export class PortfolioController extends BaseController {
       durationTo: [durationTo, optional(string())],
       name: [name, optional(string())],
       currency: [currency, optional(string())],
-      sortBy: [sortBy, optional(string())],
+      sortBy: [sortBy, optional(sortByEnumSchema)],
       recommended: [recommended, optional(boolean())],
       mcEnabled: [mcEnabled, optional(boolean())],
       acceptLanguage: [acceptLanguage, optional(acceptLanguageEnumSchema)],

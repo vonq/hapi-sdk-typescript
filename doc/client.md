@@ -5,11 +5,10 @@ The following parameters are configurable for the API Client:
 
 | Parameter | Type | Description |
 |  --- | --- | --- |
-| `environment` | Environment | The API environment. <br> **Default: `Environment.Production`** |
+| `environment` | Environment | The API environment. <br> **Default: `Environment.Sandbox`** |
 | `timeout` | `number` | Timeout for API calls.<br>*Default*: `0` |
 | `httpClientOptions` | `Partial<HttpClientOptions>` | Stable configurable http client options. |
 | `unstableHttpClientOptions` | `any` | Unstable configurable http client options. |
-| `xAuthToken` | `string` |  |
 
 ## HttpClientOptions
 
@@ -37,8 +36,7 @@ The API client can be initialized as follows:
 ```ts
 const client = new Client({
   timeout: 0,
-  environment: Environment.Production,
-  xAuthToken: null,
+  environment: Environment.Sandbox,
 })
 ```
 

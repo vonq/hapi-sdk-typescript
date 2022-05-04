@@ -10,20 +10,20 @@
 | Name | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `mcEnabled` | `boolean` | Required | - |
-| `id` | `number \| undefined` | Optional | - |
-| `name` | `string \| undefined` | Optional | **Constraints**: *Minimum Length*: `1` |
-| `url` | `string \| undefined` | Optional | **Constraints**: *Minimum Length*: `1` |
-| `type` | `string \| undefined` | Optional | **Constraints**: *Minimum Length*: `1` |
+| `id` | `number` | Required | - |
+| `name` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
+| `url` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
+| `type` | `string` | Required | **Constraints**: *Minimum Length*: `1` |
 
 ## Example (as JSON)
 
 ```json
 {
   "mc_enabled": false,
-  "id": null,
-  "name": null,
-  "url": null,
-  "type": null
+  "id": 112,
+  "name": "name0",
+  "url": "url4",
+  "type": "type0"
 }
 ```
 

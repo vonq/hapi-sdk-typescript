@@ -13,7 +13,7 @@
 | `description` | `string` | Required | Full description of the job posting, including all possible sections<br><br>**Allowed tags:** `a[href\|target], em, b, br, strong, i, li, ol, p, ul` |
 | `organization` | [`PostingOrganizationModel`](../../doc/models/posting-organization-model.md) | Required | - |
 | `workingLocation` | [`PostingWorkingLocationModel`](../../doc/models/posting-working-location-model.md) | Required | - |
-| `contactInfo` | [`PostingContactInfoModel \| undefined`](../../doc/models/posting-contact-info-model.md) | Optional | - |
+| `contactInfo` | [`PostingContactInfoModel \| undefined`](../../doc/models/posting-contact-info-model.md) | Optional | Contact is whom to contact about the job. This may be part of the posting info for candidates to know whom they can reach out to learn more about the vacancy. |
 | `yearsOfExperience` | `number` | Required | Numbers of years of experience required for this position |
 | `employmentType` | [`EmploymentTypeEnum`](../../doc/models/employment-type-enum.md) | Required | The type of employment of the posting, whether it's a permanent position or a fixed time position |
 | `weeklyWorkingHours` | [`PostingWeeklyWorkingHoursModel`](../../doc/models/posting-weekly-working-hours-model.md) | Required | - |

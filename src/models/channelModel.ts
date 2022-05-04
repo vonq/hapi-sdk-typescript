@@ -9,9 +9,10 @@ import {
   boolean,
   expandoObject,
   lazy,
-  optional,
+  nullable,
   Schema,
   string,
+  unknown,
 } from '../schema';
 import { ChannelTypeEnum, channelTypeEnumSchema } from './channelTypeEnum';
 import {
@@ -22,35 +23,41 @@ import { FacetModel, facetModelSchema } from './facetModel';
 
 export interface ChannelModel {
   /** The name of a channel */
-  name?: string;
+  name: string;
   /** The url of a channel */
-  url?: string;
+  url: string;
   /** The type of a channel */
-  type?: ChannelTypeEnum;
+  type: ChannelTypeEnum;
   /** Does a channel support My Contracts */
-  mcEnabled?: boolean;
-  contractCredentials?: ContractCredentialModel[];
-  contractFacets?: FacetModel[];
+  mcEnabled: boolean;
+  contractCredentials: ContractCredentialModel[];
+  contractFacets: unknown[];
   /** Dynamic posting requirements for MC products, used to provide additional data with vacancies */
-  postingRequirements?: FacetModel[];
+  postingRequirements: FacetModel[];
+  /** Some Channels require manual setup done by the end-user. In most such cases, `setup_instructions` should contain HTML */
+  manualSetupRequired: boolean;
+  /** Additional setup instructions required to post on the Channel */
+  setupInstructions: string | null;
+  /** Some channels like apec.fr require the user to send the job board an XML url. If not null, this value should be displayed to the user, along with the `setup_instructions` */
+  feedUrl: string | null;
   [key: string]: unknown;
 }
 
 export const channelModelSchema: Schema<ChannelModel> = expandoObject({
-  name: ['name', optional(string())],
-  url: ['url', optional(string())],
-  type: ['type', optional(channelTypeEnumSchema)],
-  mcEnabled: ['mc_enabled', optional(boolean())],
+  name: ['name', string()],
+  url: ['url', string()],
+  type: ['type', channelTypeEnumSchema],
+  mcEnabled: ['mc_enabled', boolean()],
   contractCredentials: [
     'contract_credentials',
-    optional(array(lazy(() => contractCredentialModelSchema))),
+    array(lazy(() => contractCredentialModelSchema)),
   ],
-  contractFacets: [
-    'contract_facets',
-    optional(array(lazy(() => facetModelSchema))),
-  ],
+  contractFacets: ['contract_facets', array(unknown())],
   postingRequirements: [
     'posting_requirements',
-    optional(array(lazy(() => facetModelSchema))),
+    array(lazy(() => facetModelSchema)),
   ],
+  manualSetupRequired: ['manual_setup_required', boolean()],
+  setupInstructions: ['setup_instructions', nullable(string())],
+  feedUrl: ['feed_url', nullable(string())],
 });

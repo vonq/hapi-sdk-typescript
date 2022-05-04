@@ -7,7 +7,7 @@
 import { expandoObject, Schema, string } from '../schema';
 
 export interface FacetOptionShowFacetsModel {
-  /** the facet name */
+  /** The facet name that becomes required when this option is chosen. */
   facet: string;
   [key: string]: unknown;
 }

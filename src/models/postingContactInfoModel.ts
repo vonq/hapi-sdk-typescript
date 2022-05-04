@@ -6,6 +6,7 @@
 
 import { expandoObject, optional, Schema, string } from '../schema';
 
+/** Contact is whom to contact about the job. This may be part of the posting info for candidates to know whom they can reach out to learn more about the vacancy. */
 export interface PostingContactInfoModel {
   name: string;
   phoneNumber?: string;

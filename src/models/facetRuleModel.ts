@@ -9,6 +9,7 @@ import { RuleEnum, ruleEnumSchema } from './ruleEnum';
 
 export interface FacetRuleModel {
   rule: RuleEnum;
+  /** the value used for the rule */
   data: string;
   [key: string]: unknown;
 }

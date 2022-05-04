@@ -5,8 +5,10 @@
  */
 
 import {
+  array,
   expandoObject,
   lazy,
+  nullable,
   number,
   optional,
   Schema,
@@ -21,34 +23,45 @@ import {
   ContractPurchasePriceModel,
   contractPurchasePriceModelSchema,
 } from './contractPurchasePriceModel';
+import { FacetModel, facetModelSchema } from './facetModel';
 
 export interface ContractModel {
-  contractId?: string;
-  customerId?: string;
-  channelId?: number;
-  credentials?: string;
-  className?: string;
-  /** An object with product parameters */
+  /** The identifier of the Contract. To be used when creating a Campaign */
+  contractId: string;
+  /** The customer_id this contract belongs to. Based on the original `X-Customer-Id` header used when the contract was created. */
+  customerId: string;
+  /** The Channel (job board) the contract is to be used for */
+  channelId: number;
+  /** AES Encrypted credentials */
+  credentials?: unknown;
+  /** Channel slug */
+  className: string;
+  /** An object with contract parameters */
   facets?: unknown;
-  product?: ContractProductModel;
-  postingRequirements?: string;
-  expiryDate?: string;
-  credits?: number;
+  /** The Product to be used in combination with the Contract when ordering a Campaign. */
+  product: ContractProductModel;
+  /** A list of the Contract Channel's Facets */
+  postingRequirements: FacetModel[];
+  expiryDate: string | null;
+  credits: number | null;
   purchasePrice?: ContractPurchasePriceModel;
   [key: string]: unknown;
 }
 
 export const contractModelSchema: Schema<ContractModel> = expandoObject({
-  contractId: ['contract_id', optional(string())],
-  customerId: ['customer_id', optional(string())],
-  channelId: ['channel_id', optional(number())],
-  credentials: ['credentials', optional(string())],
-  className: ['class_name', optional(string())],
-  facets: ['facets', optional(unknown())],
-  product: ['product', optional(lazy(() => contractProductModelSchema))],
-  postingRequirements: ['posting_requirements', optional(string())],
-  expiryDate: ['expiry_date', optional(string())],
-  credits: ['credits', optional(number())],
+  contractId: ['contract_id', string()],
+  customerId: ['customer_id', string()],
+  channelId: ['channel_id', number()],
+  credentials: ['credentials', unknown()],
+  className: ['class_name', string()],
+  facets: ['facets', unknown()],
+  product: ['product', lazy(() => contractProductModelSchema)],
+  postingRequirements: [
+    'posting_requirements',
+    array(lazy(() => facetModelSchema)),
+  ],
+  expiryDate: ['expiry_date', nullable(string())],
+  credits: ['credits', nullable(number())],
   purchasePrice: [
     'purchase_price',
     optional(lazy(() => contractPurchasePriceModelSchema)),

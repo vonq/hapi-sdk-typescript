@@ -47,6 +47,7 @@ export interface PostingDetailsModel {
   description: string;
   organization: PostingOrganizationModel;
   workingLocation: PostingWorkingLocationModel;
+  /** Contact is whom to contact about the job. This may be part of the posting info for candidates to know whom they can reach out to learn more about the vacancy. */
   contactInfo?: PostingContactInfoModel;
   /** Numbers of years of experience required for this position */
   yearsOfExperience: number;

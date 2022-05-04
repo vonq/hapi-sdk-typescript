@@ -10,13 +10,12 @@ import { HttpClientOptions } from './core';
 export interface Configuration {
   timeout: number;
   environment: Environment;
-  xAuthToken: string;
   httpClientOptions?: Partial<HttpClientOptions>;
   unstable_httpClientOptions?: any;
 }
 
 /** Environments available for API */
 export enum Environment {
+  Sandbox = 'sandbox',
   Production = 'production',
-  Environment2 = 'environment2',
 }
